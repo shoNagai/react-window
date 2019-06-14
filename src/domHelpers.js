@@ -33,15 +33,15 @@ export function isRTLOffsetNegative(recalculate?: boolean = false): boolean {
   if (cachedRTLResult === null || recalculate) {
     const outerDiv = document.createElement('div');
     const outerStyle = outerDiv.style;
-    outerStyle.width = '50px';
-    outerStyle.height = '50px';
+    // outerStyle.width = '50px';
+    // outerStyle.height = '50px';
     outerStyle.overflow = 'scroll';
     outerStyle.direction = 'rtl';
 
     const innerDiv = document.createElement('div');
     const innerStyle = innerDiv.style;
-    innerStyle.width = '100px';
-    innerStyle.height = '100px';
+    // innerStyle.width = '100px';
+    // innerStyle.height = '100px';
 
     outerDiv.appendChild(innerDiv);
 
