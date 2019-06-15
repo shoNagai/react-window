@@ -96,9 +96,9 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
   }
 
   shouldComponentUpdate(nextProps) {
-    console.log('shouldComponentUpdate', nextProps);
+    console.log('shouldComponentUpdate', nextProps, this.props);
     if (
-      nextProps.size !== this.props.size ||
+      nextProps.size > this.props.size ||
       nextProps.index !== this.props.index
     ) {
       return true;
