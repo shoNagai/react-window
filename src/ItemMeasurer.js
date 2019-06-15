@@ -60,6 +60,8 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
       if (!this._didProvideValidRef) {
         const { item } = this.props;
 
+        console.log('item is ', item);
+
         const displayName =
           item && item.type
             ? item.type.displayName || item.type.name || '(unknown)'
@@ -138,6 +140,10 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
         direction === 'horizontal' || layout === 'horizontal'
           ? Math.ceil(node.offsetWidth)
           : Math.ceil(node.offsetHeight);
+
+      console.log(
+        `_measureItem index ${index} oldSize ${oldSize} newSize ${newSize}`
+      );
 
       if (oldSize !== newSize) {
         handleNewMeasurements(index, newSize, isCommitPhase);
