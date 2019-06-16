@@ -132,6 +132,9 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
       node.ownerDocument.defaultView &&
       node instanceof node.ownerDocument.defaultView.HTMLElement
     ) {
+      console.log(
+        `Math.ceil(node.offsetHeight) ${Math.ceil(node.offsetHeight)}`
+      );
       const newSize =
         direction === 'horizontal' || layout === 'horizontal'
           ? Math.ceil(node.offsetWidth)
