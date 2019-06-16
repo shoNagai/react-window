@@ -51,7 +51,6 @@ const getItemMetadata = (
   // If the specified item has not yet been measured,
   // Just return an estimated size for now.
   if (index > lastMeasuredIndex) {
-    console.log('return estimatedItemSize: ', index, estimatedItemSize);
     return {
       offset: 0,
       size: estimatedItemSize,
@@ -85,7 +84,6 @@ const getItemMetadata = (
   let offset = itemOffsetMap[index];
   let size = itemSizeMap[index];
 
-  console.log('return itemSizeMap[index]: ', index, size);
   return { offset, size };
 };
 
