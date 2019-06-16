@@ -452,6 +452,8 @@ const DynamicSizeList = createListComponent({
           // getItemMetadata() will clear stale styles.
           const style = instance._getItemStyle(index);
 
+          console.log(`index ${index}`, style);
+
           const item = createElement(children, {
             data: itemData,
             index,
