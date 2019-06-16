@@ -148,12 +148,12 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
       this._resizeObserver.unobserve(this._node);
     }
 
-    console.log('_refSetter', ref.offsetHeight);
-
     if (ref instanceof HTMLElement) {
+      console.log('1 _refSetter', ref);
       this._didProvideValidRef = true;
       this._node = ref;
     } else if (ref) {
+      console.log('2 _refSetter', ref);
       this._node = ((findDOMNode(ref): any): HTMLElement);
     } else {
       this._node = null;
