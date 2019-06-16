@@ -139,7 +139,7 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
 
       console.log(`index ${index}, oldSize ${oldSize}, newSize ${newSize}`);
 
-      if (oldSize <= newSize) {
+      if (oldSize != newSize) {
         handleNewMeasurements(index, newSize, isCommitPhase);
       }
     }
