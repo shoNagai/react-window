@@ -97,6 +97,7 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
     if (nextProps.index === this.props.index) {
       return true;
     }
+    console.log('no rendering');
     return false;
   }
 
@@ -119,8 +120,10 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
       layout,
       handleNewMeasurements,
       index,
-      size: oldSize,
+      size,
     } = this.props;
+
+    const oldSize = typeof size !== 'undefined' ? size : 0;
 
     const node = this._node;
 
@@ -135,12 +138,7 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
           ? Math.ceil(node.offsetWidth)
           : Math.ceil(node.offsetHeight);
 
-      console.log(
-        `index ${index} oldSize is ${oldSize}, newSize is ${newSize}`
-      );
-
-      if (typeof oldSize === 'undefined' || oldSize <= newSize) {
-        console.log('call handleNewMeasurements');
+      if (oldSize <= newSize) {
         handleNewMeasurements(index, newSize, isCommitPhase);
       }
     }
