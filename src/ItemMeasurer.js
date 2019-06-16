@@ -97,7 +97,6 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
     if (nextProps.index === this.props.index) {
       return true;
     }
-    console.log('no rendering');
     return false;
   }
 

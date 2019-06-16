@@ -84,6 +84,8 @@ const getItemMetadata = (
   let offset = itemOffsetMap[index];
   let size = itemSizeMap[index];
 
+  console.log(`index ${index}, offset ${offset}, size ${size}`);
+
   return { offset, size };
 };
 
