@@ -60,8 +60,6 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
       if (!this._didProvideValidRef) {
         const { item } = this.props;
 
-        console.log('item is ', item);
-
         const displayName =
           item && item.type
             ? item.type.displayName || item.type.name || '(unknown)'
@@ -96,13 +94,26 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
   }
 
   shouldComponentUpdate(nextProps) {
-    console.log('shouldComponentUpdate', nextProps, this.props);
     if (
       nextProps.size > this.props.size ||
       nextProps.index !== this.props.index
     ) {
+      console.log(
+        'true',
+        nextProps.index,
+        this.props.index,
+        nextProps.size,
+        this.props.size
+      );
       return true;
     }
+    console.log(
+      'false',
+      nextProps.index,
+      this.props.index,
+      nextProps.size,
+      this.props.size
+    );
     return false;
   }
 
@@ -145,7 +156,7 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
         `_measureItem index ${index} oldSize ${oldSize} newSize ${newSize}`
       );
 
-      if (oldSize !== newSize) {
+      if (oldSize < newSize) {
         handleNewMeasurements(index, newSize, isCommitPhase);
       }
     }
