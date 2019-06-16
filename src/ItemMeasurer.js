@@ -95,22 +95,8 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
 
   shouldComponentUpdate(nextProps) {
     if (nextProps.index === this.props.index) {
-      console.log(
-        'true',
-        nextProps.index,
-        this.props.index,
-        nextProps.size,
-        this.props.size
-      );
       return true;
     }
-    console.log(
-      'false',
-      nextProps.index,
-      this.props.index,
-      nextProps.size,
-      this.props.size
-    );
     return false;
   }
 
@@ -149,12 +135,7 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
           ? Math.ceil(node.offsetWidth)
           : Math.ceil(node.offsetHeight);
 
-      console.log(
-        `_measureItem index ${index} oldSize ${oldSize} newSize ${newSize}`
-      );
-
-      if (typeof oldSize === 'undefined' || oldSize <= newSize) {
-        console.log('call handleNewMeasurements');
+      if (typeof oldSize === 'undefined' || oldSize < newSize) {
         handleNewMeasurements(index, newSize, isCommitPhase);
       }
     }
