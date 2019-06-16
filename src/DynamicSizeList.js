@@ -84,8 +84,6 @@ const getItemMetadata = (
   let offset = itemOffsetMap[index];
   let size = itemSizeMap[index];
 
-  console.log(`2 index ${index}, size ${size}`);
-
   return { offset, size };
 };
 
@@ -170,8 +168,6 @@ const DynamicSizeList = createListComponent({
       ? width
       : height): any): number);
     const itemMetadata = getItemMetadata(props, index, instanceProps);
-
-    console.log(`1 index ${index}, size ${size}`);
 
     // Get estimated total size after ItemMetadata is computed,
     // To ensure it reflects actual measurements instead of just estimates.
@@ -385,8 +381,6 @@ const DynamicSizeList = createListComponent({
       // Handle this edge case to prevent NaN values from breaking styles.
       // Slow scrolling back over these skipped rows will adjust their sizes.
       const oldSize = itemSizeMap[index] || 0;
-
-      console.log(`index ${index}, oldSize ${oldSize}, newSize ${newSize}`);
 
       // Mark offsets after this as stale so that getItemMetadata() will lazily recalculate it.
       if (index < lastPositionedIndex) {
