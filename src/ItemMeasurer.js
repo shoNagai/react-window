@@ -94,10 +94,7 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (
-      nextProps.size >= this.props.size &&
-      nextProps.index === this.props.index
-    ) {
+    if (nextProps.index === this.props.index) {
       console.log(
         'true',
         nextProps.index,
@@ -156,7 +153,8 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
         `_measureItem index ${index} oldSize ${oldSize} newSize ${newSize}`
       );
 
-      if (oldSize < newSize) {
+      if (typeof oldSize === 'undefined' || oldSize <= newSize) {
+        console.log('call handleNewMeasurements');
         handleNewMeasurements(index, newSize, isCommitPhase);
       }
     }
