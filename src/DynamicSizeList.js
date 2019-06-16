@@ -384,7 +384,7 @@ const DynamicSizeList = createListComponent({
       // Slow scrolling back over these skipped rows will adjust their sizes.
       const oldSize = itemSizeMap[index] || 0;
 
-      console.log(`index ${index}, oldSize ${oldSize}, size ${size}`);
+      console.log(`index ${index}, oldSize ${oldSize}, newSize ${newSize}`);
 
       // Mark offsets after this as stale so that getItemMetadata() will lazily recalculate it.
       if (index < lastPositionedIndex) {
