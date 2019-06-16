@@ -452,14 +452,14 @@ const DynamicSizeList = createListComponent({
           // getItemMetadata() will clear stale styles.
           const style = instance._getItemStyle(index);
 
-          console.log(`index ${index}`, style);
-
           const item = createElement(children, {
             data: itemData,
             index,
             isScrolling: useIsScrolling ? isScrolling : undefined,
             style,
           });
+
+          console.log(`index ${index}`, item);
 
           // Always wrap children in a ItemMeasurer to detect changes in size.
           items.push(
