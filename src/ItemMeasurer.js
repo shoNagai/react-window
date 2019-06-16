@@ -135,9 +135,12 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
           ? Math.ceil(node.offsetWidth)
           : Math.ceil(node.offsetHeight);
 
-      console.log(`oldSize is ${oldSize}, newSize is ${newSize}`);
+      console.log(
+        `index ${index} oldSize is ${oldSize}, newSize is ${newSize}`
+      );
 
       if (typeof oldSize === 'undefined' || oldSize <= newSize) {
+        console.log('call handleNewMeasurements');
         handleNewMeasurements(index, newSize, isCommitPhase);
       }
     }
