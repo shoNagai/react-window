@@ -459,8 +459,6 @@ const DynamicSizeList = createListComponent({
             style,
           });
 
-          console.log(`index ${index}`, item);
-
           // Always wrap children in a ItemMeasurer to detect changes in size.
           items.push(
             createElement(ItemMeasurer, {
