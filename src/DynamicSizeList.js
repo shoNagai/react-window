@@ -341,7 +341,8 @@ const DynamicSizeList = createListComponent({
               if (typeof element.scrollBy === 'function') {
                 console.log(
                   'sizeDeltaForStateUpdate ',
-                  sizeDeltaForStateUpdate
+                  sizeDeltaForStateUpdate,
+                  scrollOffset
                 );
                 element.scrollBy(
                   direction === 'horizontal' || layout === 'horizontal'
@@ -357,7 +358,6 @@ const DynamicSizeList = createListComponent({
               ) {
                 element.scrollLeft = scrollOffset;
               } else {
-                console.log('scrollOffset ', scrollOffset);
                 element.scrollTop = scrollOffset;
               }
             }
