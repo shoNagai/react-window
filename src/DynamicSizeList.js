@@ -336,9 +336,13 @@ const DynamicSizeList = createListComponent({
               // Other browsers (e.g. Chrome, Safari) seem to handle both adjustments equally well.
               // See https://bugzilla.mozilla.org/show_bug.cgi?id=1502059
               const element = ((instance._outerRef: any): HTMLDivElement);
-              console.log('element ', element);
+              console.log('element ', element, direction, layout);
               // $FlowFixMe Property scrollBy is missing in HTMLDivElement
               if (typeof element.scrollBy === 'function') {
+                console.log(
+                  'sizeDeltaForStateUpdate ',
+                  sizeDeltaForStateUpdate
+                );
                 element.scrollBy(
                   direction === 'horizontal' || layout === 'horizontal'
                     ? sizeDeltaForStateUpdate
