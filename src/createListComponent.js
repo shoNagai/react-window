@@ -431,8 +431,6 @@ export default function createListComponent({
         shouldResetStyleCacheOnItemSizeChange && direction
       );
 
-      console.log('itemStyleCache', itemStyleCache);
-
       let style;
       if (itemStyleCache.hasOwnProperty(index)) {
         style = itemStyleCache[index];
@@ -522,6 +520,7 @@ export default function createListComponent({
       const items = [];
       if (itemCount > 0) {
         for (let index = startIndex; index <= stopIndex; index++) {
+          console.log('_renderItems', itemKey(index, itemData));
           items.push(
             createElement(children, {
               data: itemData,

@@ -439,6 +439,8 @@ const DynamicSizeList = createListComponent({
       } = instance.props;
       const { isScrolling } = instance.state;
 
+      console.log('instance._renderItems', itemData);
+
       const [startIndex, stopIndex] = instance._getRangeToRender();
 
       const items = [];
