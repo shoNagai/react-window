@@ -205,8 +205,6 @@ const DynamicSizeList = createListComponent({
   ): number => {
     const { lastMeasuredIndex, totalMeasuredSize } = instanceProps;
 
-    // console.log('getStartIndexForOffset', lastMeasuredIndex, totalMeasuredSize);
-
     // If we've already positioned and measured past this point,
     // Use a binary search to find the closets cell.
     if (offset <= totalMeasuredSize) {
@@ -453,7 +451,6 @@ const DynamicSizeList = createListComponent({
           // It's important to read style after fetching item metadata.
           // getItemMetadata() will clear stale styles.
           const style = instance._getItemStyle(index);
-          console.log('instance._renderItems', index, style);
 
           const item = createElement(children, {
             data: itemData,

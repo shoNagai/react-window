@@ -38,7 +38,6 @@ type onScrollCallback = ({
 
 type ScrollEvent = SyntheticEvent<HTMLDivElement>;
 type ItemStyleCache = { [index: number]: Object };
-type ListItemStyleCache = { [listKey: string]: { [index: number]: Object } };
 
 export type Props<T> = {|
   children: RenderComponent<T>,
@@ -52,7 +51,6 @@ export type Props<T> = {|
   itemCount: number,
   itemData: T,
   itemKey?: (index: number, data: T) => any,
-  listKey?: string,
   itemSize: itemSize,
   layout: Layout,
   onItemsRendered?: onItemsRenderedCallback,
