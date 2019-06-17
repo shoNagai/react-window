@@ -439,8 +439,6 @@ const DynamicSizeList = createListComponent({
       } = instance.props;
       const { isScrolling } = instance.state;
 
-      console.log('instance._renderItems', itemData);
-
       const [startIndex, stopIndex] = instance._getRangeToRender();
 
       const items = [];
@@ -455,6 +453,7 @@ const DynamicSizeList = createListComponent({
           // It's important to read style after fetching item metadata.
           // getItemMetadata() will clear stale styles.
           const style = instance._getItemStyle(index);
+          console.log('instance._renderItems', index, style);
 
           const item = createElement(children, {
             data: itemData,
