@@ -431,6 +431,8 @@ export default function createListComponent({
         shouldResetStyleCacheOnItemSizeChange && direction
       );
 
+      console.log('itemStyleCache', itemStyleCache);
+
       let style;
       if (itemStyleCache.hasOwnProperty(index)) {
         style = itemStyleCache[index];
