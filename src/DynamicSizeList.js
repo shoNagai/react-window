@@ -336,6 +336,7 @@ const DynamicSizeList = createListComponent({
               // Other browsers (e.g. Chrome, Safari) seem to handle both adjustments equally well.
               // See https://bugzilla.mozilla.org/show_bug.cgi?id=1502059
               const element = ((instance._outerRef: any): HTMLDivElement);
+              console.log('element ', element);
               // $FlowFixMe Property scrollBy is missing in HTMLDivElement
               if (typeof element.scrollBy === 'function') {
                 element.scrollBy(
@@ -352,6 +353,7 @@ const DynamicSizeList = createListComponent({
               ) {
                 element.scrollLeft = scrollOffset;
               } else {
+                console.log('scrollOffset ', scrollOffset);
                 element.scrollTop = scrollOffset;
               }
             }
