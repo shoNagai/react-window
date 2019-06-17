@@ -205,7 +205,7 @@ const DynamicSizeList = createListComponent({
   ): number => {
     const { lastMeasuredIndex, totalMeasuredSize } = instanceProps;
 
-    console.log('getStartIndexForOffset', lastMeasuredIndex, totalMeasuredSize);
+    // console.log('getStartIndexForOffset', lastMeasuredIndex, totalMeasuredSize);
 
     // If we've already positioned and measured past this point,
     // Use a binary search to find the closets cell.

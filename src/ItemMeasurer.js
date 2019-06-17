@@ -60,6 +60,8 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
       if (!this._didProvideValidRef) {
         const { item } = this.props;
 
+        console.log('ItemMeasurer', item);
+
         const displayName =
           item && item.type
             ? item.type.displayName || item.type.name || '(unknown)'
