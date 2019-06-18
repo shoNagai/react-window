@@ -126,18 +126,18 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
 
     const node = this._node;
 
-    console.log(
-      `node.offsetHeight ${node.offsetHeight}, clientHeight ${
-        node.clientHeight
-      }`
-    );
-
     if (
       node &&
       node.ownerDocument &&
       node.ownerDocument.defaultView &&
       node instanceof node.ownerDocument.defaultView.HTMLElement
     ) {
+      console.log(
+        `node.offsetHeight ${node.offsetHeight}, clientHeight ${
+          node.clientHeight
+        }`
+      );
+
       const newSize =
         direction === 'horizontal' || layout === 'horizontal'
           ? Math.ceil(node.offsetWidth)
