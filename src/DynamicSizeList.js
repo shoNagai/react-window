@@ -309,6 +309,7 @@ const DynamicSizeList = createListComponent({
               prevState.scrollDirection === 'backward' &&
               !prevState.scrollUpdateWasRequested
             ) {
+              console.log('TRICKY ', prevState.scrollOffset);
               // TRICKY
               // If item(s) have changed size since they were last displayed, content will appear to jump.
               // To avoid this, we need to make small adjustments as a user scrolls to preserve apparent position.
@@ -336,18 +337,21 @@ const DynamicSizeList = createListComponent({
               // Other browsers (e.g. Chrome, Safari) seem to handle both adjustments equally well.
               // See https://bugzilla.mozilla.org/show_bug.cgi?id=1502059
               const element = ((instance._outerRef: any): HTMLDivElement);
+              console.log('element ', element);
               // $FlowFixMe Property scrollBy is missing in HTMLDivElement
-              // if (typeof element.scrollBy === 'function') {
-              //   element.scrollBy(
-              //     direction === 'horizontal' || layout === 'horizontal'
-              //       ? sizeDeltaForStateUpdate
-              //       : 0,
-              //     direction === 'horizontal' || layout === 'horizontal'
-              //       ? 0
-              //       : sizeDeltaForStateUpdate
-              //   );
-              // } else
-              if (direction === 'horizontal' || layout === 'horizontal') {
+              if (typeof element.scrollBy === 'function') {
+                element.scrollBy(
+                  direction === 'horizontal' || layout === 'horizontal'
+                    ? sizeDeltaForStateUpdate
+                    : 0,
+                  direction === 'horizontal' || layout === 'horizontal'
+                    ? 0
+                    : sizeDeltaForStateUpdate
+                );
+              } else if (
+                direction === 'horizontal' ||
+                layout === 'horizontal'
+              ) {
                 element.scrollLeft = scrollOffset;
               } else {
                 element.scrollTop = scrollOffset;
@@ -373,6 +377,8 @@ const DynamicSizeList = createListComponent({
         lastMeasuredIndex,
         lastPositionedIndex,
       } = instanceProps;
+
+      console.log('newSize', newSize);
 
       // In some browsers (e.g. Firefox) fast scrolling may skip rows.
       // In this case, our assumptions about last measured indices may be incorrect.

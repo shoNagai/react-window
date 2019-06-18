@@ -226,6 +226,7 @@ export default function createListComponent({
         if (direction === 'horizontal' || layout === 'horizontal') {
           outerRef.scrollLeft = initialScrollOffset;
         } else {
+          console.log('componentDidMount ', initialScrollOffset);
           outerRef.scrollTop = initialScrollOffset;
         }
       }
