@@ -163,6 +163,6 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
   };
 
   _onResize = () => {
-    this._measureItem(false);
+    this._measureItem(true);
   };
 }
