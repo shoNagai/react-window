@@ -417,13 +417,13 @@ const DynamicSizeList = createListComponent({
       // }
 
       const delta = newSize - oldSize;
-      const [, , visibleStartIndex] = instance._getRangeToRender(
-        instance.state.scrollOffset
-      );
-      if (index < visibleStartIndex + 1) {
-        return;
-      }
-      console.log('visibleStartIndex', visibleStartIndex);
+      // const [, , visibleStartIndex] = instance._getRangeToRender(
+      //   instance.state.scrollOffset
+      // );
+      // if (index < visibleStartIndex + 1) {
+      //   return;
+      // }
+      // console.log('visibleStartIndex', visibleStartIndex);
 
       instance.setState(
         prevState => {
