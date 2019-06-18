@@ -338,7 +338,6 @@ const DynamicSizeList = createListComponent({
               const element = ((instance._outerRef: any): HTMLDivElement);
               // $FlowFixMe Property scrollBy is missing in HTMLDivElement
               if (typeof element.scrollBy === 'function') {
-                console.log('sizeDeltaForStateUpdate', sizeDeltaForStateUpdate);
                 element.scrollBy(
                   direction === 'horizontal' || layout === 'horizontal'
                     ? sizeDeltaForStateUpdate
@@ -363,6 +362,8 @@ const DynamicSizeList = createListComponent({
       }
     };
 
+    let mountingCorrections = 0;
+    let correctedInstances = 0;
     // This function may be called out of order!
     // It is not safe to reposition items here.
     // Be careful when comparing index and lastMeasuredIndex.
@@ -423,6 +424,32 @@ const DynamicSizeList = createListComponent({
       } else {
         debounceForceUpdate();
       }
+
+      const delta = newSize - oldSize;
+
+      instance.setState(
+        prevState => {
+          let deltaValue;
+          if (mountingCorrections === 0) {
+            deltaValue = delta;
+          } else {
+            deltaValue = prevState.scrollDelta + delta;
+          }
+          mountingCorrections++;
+          const newOffset = prevState.scrollOffset + delta;
+          return {
+            scrollOffset: newOffset,
+            scrollDelta: deltaValue,
+          };
+        },
+        () => {
+          // $FlowFixMe Property scrollBy is missing in HTMLDivElement
+          correctedInstances++;
+          if (mountingCorrections === correctedInstances) {
+            correctScroll();
+          }
+        }
+      );
     };
     instance._handleNewMeasurements = handleNewMeasurements;
 
@@ -431,6 +458,8 @@ const DynamicSizeList = createListComponent({
       const element = ((instance._outerRef: any): HTMLDivElement);
       if (element) {
         element.scrollTop = scrollOffset;
+        correctedInstances = 0;
+        mountingCorrections = 0;
       }
     };
 
