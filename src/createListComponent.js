@@ -266,6 +266,12 @@ export default function createListComponent({
 
       console.log('snapshot', snapshot);
 
+      const positionTop =
+        snapshot.previousScrollTop +
+        (postlistScrollHeight - snapshot.previousScrollHeight);
+
+      console.log('positionTop', positionTop);
+
       if (scrollUpdateWasRequested && this._outerRef != null) {
         const outerRef = ((this._outerRef: any): HTMLElement);
         // TODO Deprecate direction "horizontal"
@@ -285,7 +291,7 @@ export default function createListComponent({
             outerRef.scrollLeft = scrollOffset;
           }
         } else {
-          console.log('componentDidUpdate', scrollOffset);
+          console.log('■■■■■■■■■■■■■■■■■■■■■■■■■■■■', scrollOffset);
           outerRef.scrollTop = scrollOffset;
         }
       }
