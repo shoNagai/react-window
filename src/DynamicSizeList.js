@@ -423,6 +423,7 @@ const DynamicSizeList = createListComponent({
       if (index < visibleStartIndex + 1) {
         return;
       }
+      console.log('visibleStartIndex', visibleStartIndex);
 
       instance.setState(
         prevState => {
