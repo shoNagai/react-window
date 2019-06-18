@@ -405,7 +405,7 @@ const DynamicSizeList = createListComponent({
 
       console.log('isFirstMeasureAfterMounting', isFirstMeasureAfterMounting);
 
-      if (isFirstMeasureAfterMounting) {
+      if (!isFirstMeasureAfterMounting) {
         itemSizeMap[index] = newSize;
 
         // Even though the size has changed, we don't need to reset the cached style,
