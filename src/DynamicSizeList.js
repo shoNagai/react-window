@@ -403,52 +403,54 @@ const DynamicSizeList = createListComponent({
         instanceProps.totalMeasuredSize += newSize;
       }
 
-      itemSizeMap[index] = newSize;
+      console.log('isFirstMeasureAfterMounting', isFirstMeasureAfterMounting);
 
-      // Even though the size has changed, we don't need to reset the cached style,
-      // Because dynamic list items don't have constrained sizes.
-      // This enables them to resize when their content (or container size) changes.
-      // It also lets us avoid an unnecessary render in this case.
+      if (isFirstMeasureAfterMounting) {
+        itemSizeMap[index] = newSize;
 
-      // if (isFirstMeasureAfterMounting) {
-      //   hasNewMeasurements = true;
-      // } else {
-      //   debounceForceUpdate();
-      // }
+        // Even though the size has changed, we don't need to reset the cached style,
+        // Because dynamic list items don't have constrained sizes.
+        // This enables them to resize when their content (or container size) changes.
+        // It also lets us avoid an unnecessary render in this case.
 
-      const delta = newSize - oldSize;
+        // if (isFirstMeasureAfterMounting) {
+        //   hasNewMeasurements = true;
+        // } else {
+        //   debounceForceUpdate();
+        // }
 
-      instance.setState(
-        prevState => {
-          let deltaValue;
-          if (mountingCorrections === 0) {
-            deltaValue = delta;
-          } else {
-            deltaValue = prevState.scrollDelta + delta;
+        const delta = newSize - oldSize;
+
+        instance.setState(
+          prevState => {
+            let deltaValue;
+            if (mountingCorrections === 0) {
+              deltaValue = delta;
+            } else {
+              deltaValue = prevState.scrollDelta + delta;
+            }
+            mountingCorrections++;
+            const newOffset = prevState.scrollOffset + delta;
+            return {
+              scrollOffset: newOffset,
+              scrollDelta: deltaValue,
+            };
+          },
+          () => {
+            // $FlowFixMe Property scrollBy is missing in HTMLDivElement
+            correctedInstances++;
+            if (mountingCorrections === correctedInstances) {
+              correctScroll();
+            }
           }
-          mountingCorrections++;
-          const newOffset = prevState.scrollOffset + delta;
-          console.log('newOffset', newOffset, deltaValue);
-          return {
-            scrollOffset: newOffset,
-            scrollDelta: deltaValue,
-          };
-        },
-        () => {
-          // $FlowFixMe Property scrollBy is missing in HTMLDivElement
-          correctedInstances++;
-          if (mountingCorrections === correctedInstances) {
-            correctScroll();
-          }
-        }
-      );
+        );
+      }
     };
     instance._handleNewMeasurements = handleNewMeasurements;
 
     // set scrollTop, reset scrolling condition
     const correctScroll = () => {
       const { scrollOffset } = instance.state;
-      console.log('call correctScroll', scrollOffset);
       const element = ((instance._outerRef: any): HTMLDivElement);
       if (element) {
         element.scrollTop = scrollOffset;
