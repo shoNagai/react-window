@@ -291,13 +291,14 @@ export default function createListComponent({
             outerRef.scrollLeft = scrollOffset;
           }
         } else {
-          console.log('■■■■■■■■■■■■■■■■■■■■■■■■■■■■', scrollOffset);
           outerRef.scrollTop = scrollOffset;
         }
       }
 
       this._callPropsCallbacks();
       this._commitHook();
+
+      this.scrollTo(positionTop);
     }
 
     componentWillUnmount() {
