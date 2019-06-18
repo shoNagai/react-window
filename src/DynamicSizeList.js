@@ -309,7 +309,6 @@ const DynamicSizeList = createListComponent({
               prevState.scrollDirection === 'backward' &&
               !prevState.scrollUpdateWasRequested
             ) {
-              console.log('TRICKY ', prevState.scrollOffset);
               // TRICKY
               // If item(s) have changed size since they were last displayed, content will appear to jump.
               // To avoid this, we need to make small adjustments as a user scrolls to preserve apparent position.
@@ -337,9 +336,9 @@ const DynamicSizeList = createListComponent({
               // Other browsers (e.g. Chrome, Safari) seem to handle both adjustments equally well.
               // See https://bugzilla.mozilla.org/show_bug.cgi?id=1502059
               const element = ((instance._outerRef: any): HTMLDivElement);
-              console.log('instance._commitHook element ', element);
               // $FlowFixMe Property scrollBy is missing in HTMLDivElement
               if (typeof element.scrollBy === 'function') {
+                console.log('sizeDeltaForStateUpdate', sizeDeltaForStateUpdate);
                 element.scrollBy(
                   direction === 'horizontal' || layout === 'horizontal'
                     ? sizeDeltaForStateUpdate
@@ -354,7 +353,6 @@ const DynamicSizeList = createListComponent({
               ) {
                 element.scrollLeft = scrollOffset;
               } else {
-                console.log('instance._commitHook scrollTop', scrollOffset);
                 element.scrollTop = scrollOffset;
               }
             }
@@ -427,6 +425,14 @@ const DynamicSizeList = createListComponent({
       }
     };
     instance._handleNewMeasurements = handleNewMeasurements;
+
+    const correctScroll = () => {
+      const { scrollOffset } = instance.state;
+      const element = ((instance._outerRef: any): HTMLDivElement);
+      if (element) {
+        element.scrollTop = scrollOffset;
+      }
+    };
 
     // Override the item-rendering process to wrap items with ItemMeasurer.
     // This keep the external API simpler.

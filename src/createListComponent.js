@@ -239,9 +239,6 @@ export default function createListComponent({
       const element = this._outerRef;
       const previousScrollTop = element.scrollTop;
       const previousScrollHeight = element.scrollHeight;
-      console.log(
-        `getSnapshotBeforeUpdate previousScrollTop ${previousScrollTop}, previousScrollHeight ${previousScrollHeight}`
-      );
       return {
         previousScrollTop,
         previousScrollHeight,
