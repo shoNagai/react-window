@@ -293,72 +293,72 @@ const DynamicSizeList = createListComponent({
           return;
         }
 
-        // let shouldForceUpdate;
+        let shouldForceUpdate;
 
         // In the setState commit hook, we'll decrement sizeDeltaTotal.
         // In case the state update is processed synchronously,
         // And triggers additional size updates itself,
         // We should only drecement by the amount we updated state for originally.
-        // const sizeDeltaForStateUpdate = sizeDeltaTotal;
+        const sizeDeltaForStateUpdate = sizeDeltaTotal;
 
         // If the user is scrolling up, we need to adjust the scroll offset,
         // To prevent items from "jumping" as items before them have been resized.
-        // instance.setState(
-        //   prevState => {
-        //     if (
-        //       prevState.scrollDirection === 'backward' &&
-        //       !prevState.scrollUpdateWasRequested
-        //     ) {
-        //       // TRICKY
-        //       // If item(s) have changed size since they were last displayed, content will appear to jump.
-        //       // To avoid this, we need to make small adjustments as a user scrolls to preserve apparent position.
-        //       // This also ensures that the first item eventually aligns with scroll offset 0.
-        //       return {
-        //         scrollOffset: prevState.scrollOffset + sizeDeltaForStateUpdate,
-        //       };
-        //     } else {
-        //       // There's no state to update,
-        //       // But we still want to re-render in this case.
-        //       shouldForceUpdate = true;
+        instance.setState(
+          prevState => {
+            if (
+              prevState.scrollDirection === 'backward' &&
+              !prevState.scrollUpdateWasRequested
+            ) {
+              // TRICKY
+              // If item(s) have changed size since they were last displayed, content will appear to jump.
+              // To avoid this, we need to make small adjustments as a user scrolls to preserve apparent position.
+              // This also ensures that the first item eventually aligns with scroll offset 0.
+              return {
+                scrollOffset: prevState.scrollOffset + sizeDeltaForStateUpdate,
+              };
+            } else {
+              // There's no state to update,
+              // But we still want to re-render in this case.
+              shouldForceUpdate = true;
 
-        //       return null;
-        //     }
-        //   },
-        //   () => {
-        //     if (shouldForceUpdate) {
-        //       instance.forceUpdate();
-        //     } else {
-        //       const { scrollOffset } = instance.state;
-        //       const { direction, layout } = instance.props;
+              return null;
+            }
+          },
+          () => {
+            if (shouldForceUpdate) {
+              instance.forceUpdate();
+            } else {
+              const { scrollOffset } = instance.state;
+              const { direction, layout } = instance.props;
 
-        //       // Adjusting scroll offset directly interrupts smooth scrolling for some browsers (e.g. Firefox).
-        //       // The relative scrollBy() method doesn't interrupt (or at least it won't as of Firefox v65).
-        //       // Other browsers (e.g. Chrome, Safari) seem to handle both adjustments equally well.
-        //       // See https://bugzilla.mozilla.org/show_bug.cgi?id=1502059
-        //       const element = ((instance._outerRef: any): HTMLDivElement);
-        //       // $FlowFixMe Property scrollBy is missing in HTMLDivElement
-        //       if (typeof element.scrollBy === 'function') {
-        //         element.scrollBy(
-        //           direction === 'horizontal' || layout === 'horizontal'
-        //             ? sizeDeltaForStateUpdate
-        //             : 0,
-        //           direction === 'horizontal' || layout === 'horizontal'
-        //             ? 0
-        //             : sizeDeltaForStateUpdate
-        //         );
-        //       } else if (
-        //         direction === 'horizontal' ||
-        //         layout === 'horizontal'
-        //       ) {
-        //         element.scrollLeft = scrollOffset;
-        //       } else {
-        //         element.scrollTop = scrollOffset;
-        //       }
-        //     }
+              // Adjusting scroll offset directly interrupts smooth scrolling for some browsers (e.g. Firefox).
+              // The relative scrollBy() method doesn't interrupt (or at least it won't as of Firefox v65).
+              // Other browsers (e.g. Chrome, Safari) seem to handle both adjustments equally well.
+              // See https://bugzilla.mozilla.org/show_bug.cgi?id=1502059
+              const element = ((instance._outerRef: any): HTMLDivElement);
+              // $FlowFixMe Property scrollBy is missing in HTMLDivElement
+              if (typeof element.scrollBy === 'function') {
+                element.scrollBy(
+                  direction === 'horizontal' || layout === 'horizontal'
+                    ? sizeDeltaForStateUpdate
+                    : 0,
+                  direction === 'horizontal' || layout === 'horizontal'
+                    ? 0
+                    : sizeDeltaForStateUpdate
+                );
+              } else if (
+                direction === 'horizontal' ||
+                layout === 'horizontal'
+              ) {
+                element.scrollLeft = scrollOffset;
+              } else {
+                element.scrollTop = scrollOffset;
+              }
+            }
 
-        //     sizeDeltaTotal -= sizeDeltaForStateUpdate;
-        //   }
-        // );
+            sizeDeltaTotal -= sizeDeltaForStateUpdate;
+          }
+        );
       }
     };
 
@@ -453,6 +453,7 @@ const DynamicSizeList = createListComponent({
 
     const correctScroll = () => {
       const { scrollOffset } = instance.state;
+      console.log('■■■■■■■■ correctScroll', scrollOffset);
       const element = ((instance._outerRef: any): HTMLDivElement);
       if (element) {
         element.scrollTop = scrollOffset;
