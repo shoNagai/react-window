@@ -254,7 +254,7 @@ export default function createListComponent({
 
       console.log(
         `componentDidUpdate scrollOffset ${
-          this._outerRef.scrollOffset
+          scrollOffset
         }, scrollHeight ${this._outerRef.scrollHeight}`
       );
 
