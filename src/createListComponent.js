@@ -254,6 +254,10 @@ export default function createListComponent({
 
       const { scrollOffset: prevScrollOffset } = prevState;
 
+      const postlistScrollHeight = this._outerRef.scrollHeight;
+
+      console.log('postlistScrollHeight', postlistScrollHeight);
+
       console.log('prevProps', prevProps);
 
       console.log(`componentDidUpdate prevScrollOffset ${prevScrollOffset}`);
