@@ -183,8 +183,6 @@ export default function createListComponent({
     scrollTo(scrollOffset: number): void {
       scrollOffset = Math.max(0, scrollOffset);
 
-      console.log('scrollTo', scrollOffset);
-
       this.setState(prevState => {
         if (prevState.scrollOffset === scrollOffset) {
           return null;
@@ -201,8 +199,6 @@ export default function createListComponent({
     scrollToItem(index: number, align: ScrollToAlign = 'auto'): void {
       const { itemCount } = this.props;
       const { scrollOffset } = this.state;
-
-      console.log('scrollToItem', index);
 
       index = Math.max(0, Math.min(index, itemCount - 1));
 
@@ -226,7 +222,6 @@ export default function createListComponent({
         if (direction === 'horizontal' || layout === 'horizontal') {
           outerRef.scrollLeft = initialScrollOffset;
         } else {
-          console.log('componentDidMount ', initialScrollOffset);
           outerRef.scrollTop = initialScrollOffset;
         }
       }
@@ -235,41 +230,9 @@ export default function createListComponent({
       this._commitHook();
     }
 
-    getSnapshotBeforeUpdate(prevProps, prevState) {
-      const element = this._outerRef;
-      const previousScrollTop = element.scrollTop;
-      const previousScrollHeight = element.scrollHeight;
-      return {
-        previousScrollTop,
-        previousScrollHeight,
-      };
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate() {
       const { direction, layout } = this.props;
       const { scrollOffset, scrollUpdateWasRequested } = this.state;
-
-      // const { scrollOffset: prevScrollOffset } = prevState;
-
-      // const postlistScrollHeight = this._outerRef.scrollHeight;
-
-      // console.log('postlistScrollHeight', postlistScrollHeight);
-
-      // console.log('prevProps', prevProps);
-
-      // console.log(`componentDidUpdate prevScrollOffset ${prevScrollOffset}`);
-
-      // console.log(`componentDidUpdate scrollOffset ${scrollOffset}`);
-
-      // console.log('snapshot', snapshot);
-
-      // const positionTop =
-      //   snapshot.previousScrollTop +
-      //   (postlistScrollHeight - snapshot.previousScrollHeight);
-
-      // console.log('positionTop', positionTop);
-
-      // console.log('scrollUpdateWasRequested', scrollUpdateWasRequested);
 
       if (scrollUpdateWasRequested && this._outerRef != null) {
         const outerRef = ((this._outerRef: any): HTMLElement);
@@ -349,7 +312,7 @@ export default function createListComponent({
             height,
             width,
             overflow: 'auto',
-            overflowAnchor: 'none',
+            // overflowAnchor: 'none',
             position: 'relative',
             WebkitOverflowScrolling: 'touch',
             willChange: 'transform',
