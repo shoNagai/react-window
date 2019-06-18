@@ -126,6 +126,12 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
 
     const node = this._node;
 
+    console.log(
+      `node.offsetHeight ${node.offsetHeight}, clientHeight ${
+        node.clientHeight
+      }`
+    );
+
     if (
       node &&
       node.ownerDocument &&
@@ -137,7 +143,7 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
           ? Math.ceil(node.offsetWidth)
           : Math.ceil(node.offsetHeight);
 
-      if (oldSize < newSize) {
+      if (oldSize !== newSize) {
         handleNewMeasurements(index, newSize, isCommitPhase);
       }
     }
@@ -163,6 +169,6 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
   };
 
   _onResize = () => {
-    this._measureItem(true);
+    this._measureItem(false);
   };
 }
