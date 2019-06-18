@@ -446,6 +446,7 @@ const DynamicSizeList = createListComponent({
 
     // set scrollTop, reset scrolling condition
     const correctScroll = () => {
+      console.log('■■■■■■■■ correctScroll');
       const { scrollOffset } = instance.state;
       const element = ((instance._outerRef: any): HTMLDivElement);
       if (element) {
