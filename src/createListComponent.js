@@ -272,6 +272,8 @@ export default function createListComponent({
 
       console.log('positionTop', positionTop);
 
+      console.log('scrollUpdateWasRequested', scrollUpdateWasRequested);
+
       if (scrollUpdateWasRequested && this._outerRef != null) {
         const outerRef = ((this._outerRef: any): HTMLElement);
         // TODO Deprecate direction "horizontal"
@@ -297,8 +299,6 @@ export default function createListComponent({
 
       this._callPropsCallbacks();
       this._commitHook();
-
-      this.scrollTo(positionTop);
     }
 
     componentWillUnmount() {
