@@ -312,7 +312,6 @@ export default function createListComponent({
             height,
             width,
             overflow: 'auto',
-            // overflowAnchor: 'none',
             position: 'relative',
             WebkitOverflowScrolling: 'touch',
             willChange: 'transform',

@@ -277,21 +277,21 @@ const DynamicSizeList = createListComponent({
       }
     };
 
-    let hasNewMeasurements: boolean = false;
-    let sizeDeltaTotal = 0;
+    // let hasNewMeasurements: boolean = false;
+    // let sizeDeltaTotal = 0;
 
     // This method is called after mount and update.
     instance._commitHook = () => {
-      if (hasNewMeasurements) {
-        hasNewMeasurements = false;
+      // if (hasNewMeasurements) {
+      //   hasNewMeasurements = false;
 
         // Edge case where cell sizes changed, but cancelled each other out.
         // We still need to re-render in this case,
         // Even though we don't need to adjust scroll offset.
-        if (sizeDeltaTotal === 0) {
-          instance.forceUpdate();
-          return;
-        }
+        // if (sizeDeltaTotal === 0) {
+        //   instance.forceUpdate();
+        //   return;
+        // }
 
         // let shouldForceUpdate;
 
@@ -402,9 +402,9 @@ const DynamicSizeList = createListComponent({
         // To prevent items from "jumping" as items before them are resized.
         // We only do this for items that are newly measured (after mounting).
         // Ones that change size later do not need to affect scroll offset.
-        if (isFirstMeasureAfterMounting) {
-          sizeDeltaTotal += newSize - oldSize;
-        }
+        // if (isFirstMeasureAfterMounting) {
+        //   sizeDeltaTotal += newSize - oldSize;
+        // }
       } else {
         instanceProps.lastMeasuredIndex = index;
         instanceProps.totalMeasuredSize += newSize;
@@ -417,11 +417,11 @@ const DynamicSizeList = createListComponent({
       // This enables them to resize when their content (or container size) changes.
       // It also lets us avoid an unnecessary render in this case.
 
-      if (isFirstMeasureAfterMounting) {
-        hasNewMeasurements = true;
-      } else {
-        debounceForceUpdate();
-      }
+      // if (isFirstMeasureAfterMounting) {
+      //   hasNewMeasurements = true;
+      // } else {
+      //   debounceForceUpdate();
+      // }
 
       const delta = newSize - oldSize;
 
