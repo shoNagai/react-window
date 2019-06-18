@@ -235,9 +235,28 @@ export default function createListComponent({
       this._commitHook();
     }
 
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+      const element = this._outerRef;
+      const previousScrollTop = element.scrollTop;
+      const previousScrollHeight = element.scrollHeight;
+      console.log(
+        `getSnapshotBeforeUpdate previousScrollTop ${previousScrollTop}, previousScrollHeight ${previousScrollHeight}`
+      );
+      return {
+        previousScrollTop,
+        previousScrollHeight,
+      };
+    }
+
     componentDidUpdate() {
       const { direction, layout } = this.props;
       const { scrollOffset, scrollUpdateWasRequested } = this.state;
+
+      console.log(
+        `componentDidUpdate scrollOffset ${
+          this._outerRef.scrollOffset
+        }, scrollHeight ${this._outerRef.scrollHeight}`
+      );
 
       if (scrollUpdateWasRequested && this._outerRef != null) {
         const outerRef = ((this._outerRef: any): HTMLElement);
