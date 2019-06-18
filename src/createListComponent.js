@@ -248,15 +248,19 @@ export default function createListComponent({
       };
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState, snapshot) {
       const { direction, layout } = this.props;
       const { scrollOffset, scrollUpdateWasRequested } = this.state;
 
-      console.log(
-        `componentDidUpdate scrollOffset ${
-          scrollOffset
-        }, scrollHeight ${this._outerRef.scrollHeight}`
-      );
+      const { scrollOffset: prevScrollOffset } = prevState;
+
+      console.log('prevProps', prevProps);
+
+      console.log(`componentDidUpdate prevScrollOffset ${prevScrollOffset}`);
+
+      console.log(`componentDidUpdate scrollOffset ${scrollOffset}`);
+
+      console.log('snapshot', snapshot);
 
       if (scrollUpdateWasRequested && this._outerRef != null) {
         const outerRef = ((this._outerRef: any): HTMLElement);
