@@ -87,6 +87,27 @@ const getItemMetadata = (
   return { offset, size };
 };
 
+const generateOffsetMeasurements = (props, index, instanceProps) => {
+  const { instance, itemOffsetMap, itemSizeMap } = instanceProps;
+  const { itemData, itemCount } = instance.props;
+  instanceProps.totalMeasuredSize = 0;
+
+  for (let i = itemCount - 1; i >= 0; i--) {
+    const prevOffset = itemOffsetMap[itemData[i + 1]] || 0;
+
+    // In some browsers (e.g. Firefox) fast scrolling may skip rows.
+    // In this case, our assumptions about last measured indices may be incorrect.
+    // Handle this edge case to prevent NaN values from breaking styles.
+    // Slow scrolling back over these skipped rows will adjust their sizes.
+    const prevSize = itemSizeMap[itemData[i + 1]] || 0;
+
+    itemOffsetMap[itemData[i]] = prevOffset + prevSize;
+    instanceProps.totalMeasuredSize += itemSizeMap[itemData[i]] || 0;
+    // Reset cached style to clear stale position.
+    delete instance._itemStyleCache[itemData[i]];
+  }
+};
+
 const findNearestItemBinarySearch = (
   props: Props<any>,
   instanceProps: InstanceProps,
@@ -420,6 +441,7 @@ const DynamicSizeList = createListComponent({
       const [, , visibleStartIndex] = instance._getRangeToRender(
         instance.state.scrollOffset
       );
+      generateOffsetMeasurements(props, index, instanceProps);
       if (index < visibleStartIndex + 1) {
         return;
       }
