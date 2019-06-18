@@ -252,27 +252,27 @@ export default function createListComponent({
       const { direction, layout } = this.props;
       const { scrollOffset, scrollUpdateWasRequested } = this.state;
 
-      const { scrollOffset: prevScrollOffset } = prevState;
+      // const { scrollOffset: prevScrollOffset } = prevState;
 
-      const postlistScrollHeight = this._outerRef.scrollHeight;
+      // const postlistScrollHeight = this._outerRef.scrollHeight;
 
-      console.log('postlistScrollHeight', postlistScrollHeight);
+      // console.log('postlistScrollHeight', postlistScrollHeight);
 
-      console.log('prevProps', prevProps);
+      // console.log('prevProps', prevProps);
 
-      console.log(`componentDidUpdate prevScrollOffset ${prevScrollOffset}`);
+      // console.log(`componentDidUpdate prevScrollOffset ${prevScrollOffset}`);
 
-      console.log(`componentDidUpdate scrollOffset ${scrollOffset}`);
+      // console.log(`componentDidUpdate scrollOffset ${scrollOffset}`);
 
-      console.log('snapshot', snapshot);
+      // console.log('snapshot', snapshot);
 
-      const positionTop =
-        snapshot.previousScrollTop +
-        (postlistScrollHeight - snapshot.previousScrollHeight);
+      // const positionTop =
+      //   snapshot.previousScrollTop +
+      //   (postlistScrollHeight - snapshot.previousScrollHeight);
 
-      console.log('positionTop', positionTop);
+      // console.log('positionTop', positionTop);
 
-      console.log('scrollUpdateWasRequested', scrollUpdateWasRequested);
+      // console.log('scrollUpdateWasRequested', scrollUpdateWasRequested);
 
       if (scrollUpdateWasRequested && this._outerRef != null) {
         const outerRef = ((this._outerRef: any): HTMLElement);
