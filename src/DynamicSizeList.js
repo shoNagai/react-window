@@ -173,23 +173,23 @@ const DynamicSizeList = createListComponent({
     // To ensure it reflects actual measurements instead of just estimates.
     const estimatedTotalSize = getEstimatedTotalSize(props, instanceProps);
 
-    const maxOffset = Math.min(estimatedTotalSize - size, itemMetadata.offset);
-    const minOffset = Math.max(
+    const maxOffset = Math.max(
       0,
-      itemMetadata.offset - size + itemMetadata.size
+      itemMetadata.offset + itemMetadata.size - height
     );
+    const minOffset = Math.max(0, itemMetadata.offset);
 
     switch (align) {
       case 'start':
-        return maxOffset;
-      case 'end':
         return minOffset;
+      case 'end':
+        return maxOffset;
       case 'center':
-        return Math.round(minOffset + (maxOffset - minOffset) / 2);
+        return Math.round(minOffset - height / 2 + itemMetadata.size / 2);
       case 'auto':
       default:
         if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
-          return scrollOffset;
+          return estimatedTotalSize - (scrollOffset + height);
         } else if (scrollOffset - minOffset < maxOffset - scrollOffset) {
           return minOffset;
         } else {
@@ -446,7 +446,6 @@ const DynamicSizeList = createListComponent({
 
     // set scrollTop, reset scrolling condition
     const correctScroll = () => {
-      console.log('■■■■■■■■ correctScroll');
       const { scrollOffset } = instance.state;
       const element = ((instance._outerRef: any): HTMLDivElement);
       if (element) {
