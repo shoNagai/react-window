@@ -93,12 +93,12 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.index === this.props.index) {
-      return true;
-    }
-    return false;
-  }
+  // shouldComponentUpdate(nextProps) {
+  //   if (nextProps.index === this.props.index) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   componentWillUnmount() {
     if (this._resizeObserver !== null) {
@@ -132,12 +132,6 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
       node.ownerDocument.defaultView &&
       node instanceof node.ownerDocument.defaultView.HTMLElement
     ) {
-      console.log(
-        `node.offsetHeight ${node.offsetHeight}, clientHeight ${
-          node.clientHeight
-        }`
-      );
-
       const newSize =
         direction === 'horizontal' || layout === 'horizontal'
           ? Math.ceil(node.offsetWidth)
