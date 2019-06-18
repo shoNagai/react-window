@@ -212,7 +212,7 @@ export default function createListComponent({
 
       console.log('call scrollToItem', getScrollOffset);
 
-      this.scrollTo(newScrollOffset);
+      this.scrollTo(getScrollOffset);
     }
 
     componentDidMount() {
