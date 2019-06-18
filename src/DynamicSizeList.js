@@ -403,48 +403,45 @@ const DynamicSizeList = createListComponent({
         instanceProps.totalMeasuredSize += newSize;
       }
 
-      console.log('isFirstMeasureAfterMounting', isFirstMeasureAfterMounting);
+      itemSizeMap[index] = newSize;
 
-      if (!isFirstMeasureAfterMounting) {
-        itemSizeMap[index] = newSize;
+      // Even though the size has changed, we don't need to reset the cached style,
+      // Because dynamic list items don't have constrained sizes.
+      // This enables them to resize when their content (or container size) changes.
+      // It also lets us avoid an unnecessary render in this case.
 
-        // Even though the size has changed, we don't need to reset the cached style,
-        // Because dynamic list items don't have constrained sizes.
-        // This enables them to resize when their content (or container size) changes.
-        // It also lets us avoid an unnecessary render in this case.
+      // if (isFirstMeasureAfterMounting) {
+      //   hasNewMeasurements = true;
+      // } else {
+      //   debounceForceUpdate();
+      // }
 
-        // if (isFirstMeasureAfterMounting) {
-        //   hasNewMeasurements = true;
-        // } else {
-        //   debounceForceUpdate();
-        // }
+      const delta = newSize - oldSize;
 
-        const delta = newSize - oldSize;
-
-        instance.setState(
-          prevState => {
-            let deltaValue;
-            if (mountingCorrections === 0) {
-              deltaValue = delta;
-            } else {
-              deltaValue = prevState.scrollDelta + delta;
-            }
-            mountingCorrections++;
-            const newOffset = prevState.scrollOffset + delta;
-            return {
-              scrollOffset: newOffset,
-              scrollDelta: deltaValue,
-            };
-          },
-          () => {
-            // $FlowFixMe Property scrollBy is missing in HTMLDivElement
-            correctedInstances++;
-            if (mountingCorrections === correctedInstances) {
-              correctScroll();
-            }
+      instance.setState(
+        prevState => {
+          let deltaValue;
+          if (mountingCorrections === 0) {
+            deltaValue = delta;
+          } else {
+            deltaValue = prevState.scrollDelta + delta;
           }
-        );
-      }
+          mountingCorrections++;
+          const newOffset = prevState.scrollOffset + delta;
+          console.log('newOffset', newOffset);
+          return {
+            scrollOffset: newOffset,
+            scrollDelta: deltaValue,
+          };
+        },
+        () => {
+          // $FlowFixMe Property scrollBy is missing in HTMLDivElement
+          correctedInstances++;
+          if (mountingCorrections === correctedInstances) {
+            correctScroll();
+          }
+        }
+      );
     };
     instance._handleNewMeasurements = handleNewMeasurements;
 
