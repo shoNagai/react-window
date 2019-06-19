@@ -203,16 +203,16 @@ export default function createListComponent({
 
       index = Math.max(0, Math.min(index, itemCount - 1));
 
-      console.log('call scrollToItem', scrollOffset);
-      this.scrollTo(
-        getOffsetForIndexAndAlignment(
-          this.props,
-          index,
-          align,
-          scrollOffset,
-          this._instanceProps
-        )
-      );
+      console.log('call scrollToItem', scrollOffset, index);
+      // this.scrollTo(
+      //   getOffsetForIndexAndAlignment(
+      //     this.props,
+      //     index,
+      //     align,
+      //     scrollOffset,
+      //     this._instanceProps
+      //   )
+      // );
     }
 
     componentDidMount() {
@@ -397,7 +397,7 @@ export default function createListComponent({
           scrollOffset,
           scrollUpdateWasRequested,
         } = this.state;
-        console.log('call _callOnScroll', scrollOffset);
+
         this._callOnScroll(
           scrollDirection,
           scrollOffset,
@@ -589,8 +589,6 @@ export default function createListComponent({
           0,
           Math.min(scrollTop, scrollHeight - clientHeight)
         );
-
-        console.log('_onScrollVertical', scrollOffset);
 
         return {
           isScrolling: true,
