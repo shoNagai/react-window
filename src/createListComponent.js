@@ -201,9 +201,11 @@ export default function createListComponent({
       const { itemCount } = this.props;
       const { scrollOffset } = this.state;
 
+      console.log('call scrollToItem 1', itemCount, index);
+
       index = Math.max(0, Math.min(index, itemCount - 1));
 
-      console.log('call scrollToItem', scrollOffset, index);
+      console.log('call scrollToItem 2', scrollOffset, index);
       // this.scrollTo(
       //   getOffsetForIndexAndAlignment(
       //     this.props,
