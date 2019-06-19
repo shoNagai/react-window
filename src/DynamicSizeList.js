@@ -417,41 +417,31 @@ const DynamicSizeList = createListComponent({
       // }
 
       const delta = newSize - oldSize;
-      const [, , visibleStartIndex] = instance._getRangeToRender(
-        instance.state.scrollOffset
-      );
-      if (index < visibleStartIndex + 1) {
-        return;
-      }
-      console.log('visibleStartIndex', visibleStartIndex);
 
-      if (visibleStartIndex < index) {
-        console.log('instance.setState');
-        instance.setState(
-          prevState => {
-            let deltaValue;
-            if (mountingCorrections === 0) {
-              deltaValue = delta;
-            } else {
-              deltaValue = prevState.scrollDelta + delta;
-            }
-            mountingCorrections++;
-            const newOffset = prevState.scrollOffset + delta;
-            console.log('newOffset', newOffset);
-            return {
-              scrollOffset: newOffset,
-              scrollDelta: deltaValue,
-            };
-          },
-          () => {
-            // $FlowFixMe Property scrollBy is missing in HTMLDivElement
-            correctedInstances++;
-            if (mountingCorrections === correctedInstances) {
-              correctScroll();
-            }
+      instance.setState(
+        prevState => {
+          let deltaValue;
+          if (mountingCorrections === 0) {
+            deltaValue = delta;
+          } else {
+            deltaValue = prevState.scrollDelta + delta;
           }
-        );
-      }
+          mountingCorrections++;
+          const newOffset = prevState.scrollOffset + delta;
+          console.log('newOffset', newOffset);
+          return {
+            scrollOffset: newOffset,
+            scrollDelta: deltaValue,
+          };
+        },
+        () => {
+          // $FlowFixMe Property scrollBy is missing in HTMLDivElement
+          correctedInstances++;
+          if (mountingCorrections === correctedInstances) {
+            correctScroll();
+          }
+        }
+      );
     };
     instance._handleNewMeasurements = handleNewMeasurements;
 
