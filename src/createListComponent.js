@@ -183,7 +183,6 @@ export default function createListComponent({
     scrollTo(scrollOffset: number): void {
       scrollOffset = Math.max(0, scrollOffset);
 
-      console.log('call scrollTo', scrollOffset);
       this.setState(prevState => {
         if (prevState.scrollOffset === scrollOffset) {
           return null;
@@ -201,20 +200,17 @@ export default function createListComponent({
       const { itemCount } = this.props;
       const { scrollOffset } = this.state;
 
-      console.log('call scrollToItem 1', itemCount, index);
-
       index = Math.max(0, Math.min(index, itemCount - 1));
 
-      console.log('call scrollToItem 2', scrollOffset, index);
-      // this.scrollTo(
-      //   getOffsetForIndexAndAlignment(
-      //     this.props,
-      //     index,
-      //     align,
-      //     scrollOffset,
-      //     this._instanceProps
-      //   )
-      // );
+      this.scrollTo(
+        getOffsetForIndexAndAlignment(
+          this.props,
+          index,
+          align,
+          scrollOffset,
+          this._instanceProps
+        )
+      );
     }
 
     componentDidMount() {
