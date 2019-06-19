@@ -428,7 +428,6 @@ const DynamicSizeList = createListComponent({
           }
           mountingCorrections++;
           const newOffset = prevState.scrollOffset + delta;
-          console.log('newOffset', newOffset);
           return {
             scrollOffset: newOffset,
             scrollDelta: deltaValue,
