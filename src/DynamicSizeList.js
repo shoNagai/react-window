@@ -173,23 +173,23 @@ const DynamicSizeList = createListComponent({
     // To ensure it reflects actual measurements instead of just estimates.
     const estimatedTotalSize = getEstimatedTotalSize(props, instanceProps);
 
-    const maxOffset = Math.max(
+    const maxOffset = Math.min(estimatedTotalSize - size, itemMetadata.offset);
+    const minOffset = Math.max(
       0,
-      itemMetadata.offset + itemMetadata.size - height
+      itemMetadata.offset - size + itemMetadata.size
     );
-    const minOffset = Math.max(0, itemMetadata.offset);
 
     switch (align) {
       case 'start':
-        return minOffset;
-      case 'end':
         return maxOffset;
+      case 'end':
+        return minOffset;
       case 'center':
-        return Math.round(minOffset - height / 2 + itemMetadata.size / 2);
+        return Math.round(minOffset + (maxOffset - minOffset) / 2);
       case 'auto':
       default:
         if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
-          return estimatedTotalSize - (scrollOffset + height);
+          return scrollOffset;
         } else if (scrollOffset - minOffset < maxOffset - scrollOffset) {
           return minOffset;
         } else {
@@ -423,7 +423,7 @@ const DynamicSizeList = createListComponent({
       // if (index < visibleStartIndex + 1) {
       //   return;
       // }
-      // console.log('visibleStartIndex', visibleStartIndex);
+      console.log('visibleStartIndex', visibleStartIndex);
 
       instance.setState(
         prevState => {

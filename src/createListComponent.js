@@ -590,6 +590,8 @@ export default function createListComponent({
           Math.min(scrollTop, scrollHeight - clientHeight)
         );
 
+        console.log('_onScrollVertical', scrollOffset);
+
         return {
           isScrolling: true,
           scrollDirection:
