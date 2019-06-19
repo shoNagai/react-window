@@ -425,30 +425,32 @@ const DynamicSizeList = createListComponent({
       }
       console.log('visibleStartIndex', visibleStartIndex);
 
-      instance.setState(
-        prevState => {
-          let deltaValue;
-          if (mountingCorrections === 0) {
-            deltaValue = delta;
-          } else {
-            deltaValue = prevState.scrollDelta + delta;
+      if (visibleStartIndex !== 35) {
+        instance.setState(
+          prevState => {
+            let deltaValue;
+            if (mountingCorrections === 0) {
+              deltaValue = delta;
+            } else {
+              deltaValue = prevState.scrollDelta + delta;
+            }
+            mountingCorrections++;
+            const newOffset = prevState.scrollOffset + delta;
+            console.log('newOffset', newOffset);
+            return {
+              scrollOffset: newOffset,
+              scrollDelta: deltaValue,
+            };
+          },
+          () => {
+            // $FlowFixMe Property scrollBy is missing in HTMLDivElement
+            correctedInstances++;
+            if (mountingCorrections === correctedInstances) {
+              correctScroll();
+            }
           }
-          mountingCorrections++;
-          const newOffset = prevState.scrollOffset + delta;
-          console.log('newOffset', newOffset);
-          return {
-            scrollOffset: newOffset,
-            scrollDelta: deltaValue,
-          };
-        },
-        () => {
-          // $FlowFixMe Property scrollBy is missing in HTMLDivElement
-          correctedInstances++;
-          if (mountingCorrections === correctedInstances) {
-            correctScroll();
-          }
-        }
-      );
+        );
+      }
     };
     instance._handleNewMeasurements = handleNewMeasurements;
 
