@@ -272,6 +272,7 @@ export default function createListComponent({
     }
 
     render() {
+      console.log('★★★★★★★★★★★★★★★★render★★★★★★★★★★★★★★★★★★★★');
       const {
         className,
         direction,
@@ -297,7 +298,7 @@ export default function createListComponent({
 
       const items = this._renderItems();
 
-      console.log('■■■■■■■■■ itemsSize', items.length);
+      console.log('■■■■■■■■■ render itemsSize', items.length);
 
       // Read this value AFTER items have been created,
       // So their actual sizes (if variable) are taken into consideration.
