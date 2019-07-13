@@ -297,6 +297,8 @@ export default function createListComponent({
 
       const items = this._renderItems();
 
+      console.log('■■■■■■■■■ itemsSize', items.length);
+
       // Read this value AFTER items have been created,
       // So their actual sizes (if variable) are taken into consideration.
       const estimatedTotalSize = getEstimatedTotalSize(
@@ -481,6 +483,10 @@ export default function createListComponent({
         startIndex,
         scrollOffset,
         this._instanceProps
+      );
+
+      console.log(
+        `■■■■■■■■■■■■■■ startIndex ${startIndex}, stopIndex ${stopIndex}`
       );
 
       // Overscan by one item in each direction so that tab/focus works.
