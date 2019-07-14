@@ -505,7 +505,6 @@ const DynamicSizeList = createListComponent({
           );
         }
       }
-      console.log('■■■■■■■■ items', items);
       return items;
     };
 
