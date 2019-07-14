@@ -93,13 +93,6 @@ export default class ItemMeasurer extends Component<ItemMeasurerProps, void> {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.size !== this.props.size) {
-      return true;
-    }
-    return false;
-  }
-
   componentWillUnmount() {
     if (this._resizeObserver !== null) {
       this._resizeObserver.disconnect();
