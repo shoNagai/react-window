@@ -271,8 +271,20 @@ export default function createListComponent({
       this._unmountHook();
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+      // if (this.props.color !== nextProps.color) {
+      //   return true;
+      // }
+      // if (this.state.count !== nextState.count) {
+      //   return true;
+      // }
+      console.log('shouldComponentUpdate');
+      console.log(nextProps, this.props);
+      console.log(nextState, this.state);
+      return true;
+    }
+
     render() {
-      console.log('★★★★★★★★★★★★★★★★render★★★★★★★★★★★★★★★★★★★★');
       const {
         className,
         direction,
@@ -298,7 +310,7 @@ export default function createListComponent({
 
       const items = this._renderItems();
 
-      console.log('■■■■■■■■■ render itemsSize', items.length);
+      console.log('render itemsSize', items.length);
 
       // Read this value AFTER items have been created,
       // So their actual sizes (if variable) are taken into consideration.
