@@ -496,7 +496,7 @@ export default function createListComponent({
 
       console.log(
         'stopIndex',
-        startIndex,
+        stopIndex,
         this.props,
         scrollOffset,
         this._instanceProps
