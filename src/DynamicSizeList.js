@@ -107,14 +107,7 @@ const findNearestItemBinarySearch = (
     }
   }
 
-  console.log(
-    'findNearestItemBinarySearch',
-    high,
-    low,
-    middle,
-    currentOffset,
-    offset
-  );
+  console.log('findNearestItemBinarySearch', high, low, currentOffset, offset);
 
   if (low > 0) {
     return low - 1;
