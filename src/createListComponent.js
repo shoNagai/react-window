@@ -269,6 +269,19 @@ export default function createListComponent({
       this._unmountHook();
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+      // if (this.props.itemCount !== nextProps.itemCount) {
+      //   return true;
+      // }
+      // if (this.state.scrollOffset !== nextState.scrollOffset) {
+      //   return true;
+      // }
+      console.log('shouldComponentUpdate');
+      console.log(nextProps, this.props);
+      console.log(nextState, this.state);
+      return true;
+    }
+
     render() {
       const {
         className,
