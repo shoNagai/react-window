@@ -479,25 +479,9 @@ export default function createListComponent({
         this._instanceProps
       );
 
-      console.log(
-        'startIndex',
-        startIndex,
-        this.props,
-        scrollOffset,
-        this._instanceProps
-      );
-
       const stopIndex = getStopIndexForStartIndex(
         this.props,
         startIndex,
-        scrollOffset,
-        this._instanceProps
-      );
-
-      console.log(
-        'stopIndex',
-        stopIndex,
-        this.props,
         scrollOffset,
         this._instanceProps
       );
