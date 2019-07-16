@@ -505,8 +505,6 @@ export default function createListComponent({
         this._instanceProps
       );
 
-      console.log('_getRangeToRender', startIndex, stopIndex);
-
       // Overscan by one item in each direction so that tab/focus works.
       // If there isn't at least one extra item, tab loops back around.
       const overscanBackward =
@@ -518,11 +516,19 @@ export default function createListComponent({
           ? Math.max(1, overscanCount)
           : 1;
 
+      console.log(
+        '■■■■■■■■■ _getRangeToRender',
+        Math.max(0, startIndex - overscanBackward),
+        Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
+        startIndex,
+        stopIndex
+      );
+
       return [
         Math.max(0, startIndex - overscanBackward),
         Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
-        16,
-        33,
+        startIndex,
+        stopIndex,
       ];
     }
 
