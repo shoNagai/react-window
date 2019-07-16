@@ -471,6 +471,8 @@ const DynamicSizeList = createListComponent({
 
       const [startIndex, stopIndex] = instance._getRangeToRender();
 
+      console.log('_renderItems _getRangeToRender', startIndex, stopIndex);
+
       const items = [];
       if (itemCount > 0) {
         for (let index = startIndex; index <= stopIndex; index++) {

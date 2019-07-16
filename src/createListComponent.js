@@ -160,7 +160,7 @@ export default function createListComponent({
       scrollOffset:
         typeof this.props.initialScrollOffset === 'number'
           ? this.props.initialScrollOffset
-          : this._instanceProps.totalMeasuredSize,
+          : 0,
       scrollUpdateWasRequested: false,
     };
 
@@ -270,16 +270,7 @@ export default function createListComponent({
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-      const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
-      console.log(
-        'shouldComponentUpdate',
-        lastMeasuredIndex,
-        totalMeasuredSize
-      );
       if (this.state.scrollOffset !== nextState.scrollOffset) {
-        console.log('shouldComponentUpdate');
-        console.log(nextProps, this.props);
-        console.log(nextState, this.state);
         return true;
       }
       return false;
