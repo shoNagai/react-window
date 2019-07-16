@@ -478,9 +478,14 @@ export default function createListComponent({
     _getRangeToRender(): [number, number, number, number] {
       const { itemCount, overscanCount } = this.props;
       const { isScrolling, scrollDirection, scrollOffset } = this.state;
-      const { totalMeasuredSize } = this._instanceProps;
+      const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
 
-      console.log('_getRangeToRender', scrollOffset, totalMeasuredSize);
+      console.log(
+        '_getRangeToRender',
+        lastMeasuredIndex,
+        scrollOffset,
+        totalMeasuredSize
+      );
 
       if (itemCount === 0) {
         return [0, 0, 0, 0];
