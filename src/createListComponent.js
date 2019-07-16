@@ -62,6 +62,7 @@ export type Props<T> = {|
   style?: Object,
   useIsScrolling: boolean,
   width: number | string,
+  isReverseScroll: boolean,
 |};
 
 type State = {|
@@ -151,6 +152,7 @@ export default function createListComponent({
       layout: 'vertical',
       overscanCount: 2,
       useIsScrolling: false,
+      isReverseScroll: true,
     };
 
     state: State = {
@@ -273,6 +275,7 @@ export default function createListComponent({
       this._unmountHook();
     }
 
+    // TODO: 要確認、無駄なレンダリング防止で入れたいが
     // shouldComponentUpdate(nextProps, nextState) {
     //   if (this.state.scrollOffset !== nextState.scrollOffset) {
     //     console.log('shouldComponentUpdate', this.state, nextState);
@@ -476,23 +479,19 @@ export default function createListComponent({
     });
 
     _getRangeToRender(): [number, number, number, number] {
-      const { itemCount, overscanCount } = this.props;
+      const { itemCount, overscanCount, isReverseScroll } = this.props;
       const { isScrolling, scrollDirection, scrollOffset } = this.state;
       const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
 
-      console.log(
-        '_getRangeToRender',
-        lastMeasuredIndex,
-        scrollOffset,
-        totalMeasuredSize
-      );
+      console.log('_getRangeToRender', scrollOffset, totalMeasuredSize);
 
       if (itemCount === 0) {
         return [0, 0, 0, 0];
       }
 
-      const scrollOffsetValue =
-        scrollOffset >= 0 ? scrollOffset : totalMeasuredSize;
+      const scrollOffsetValue = isReverseScroll
+        ? totalMeasuredSize
+        : scrollOffset;
       const startIndex = getStartIndexForOffset(
         this.props,
         scrollOffsetValue,

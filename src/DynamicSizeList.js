@@ -98,6 +98,7 @@ const findNearestItemBinarySearch = (
     const middle = low + Math.floor((high - low) / 2);
     const currentOffset = getItemMetadata(props, middle, instanceProps).offset;
 
+    console.log('findNearestItemBinarySearch', low, middle, currentOffset);
     if (currentOffset === offset) {
       return middle;
     } else if (currentOffset < offset) {
@@ -213,7 +214,8 @@ const DynamicSizeList = createListComponent({
         props,
         instanceProps,
         itemCount,
-        0,
+        // 0,
+        totalMeasuredSize,
         offset
       );
     }
