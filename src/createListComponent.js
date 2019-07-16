@@ -524,7 +524,7 @@ export default function createListComponent({
         stopIndex
       );
 
-      return [16, 33, startIndex, stopIndex];
+      return [16, 32, startIndex, stopIndex];
     }
 
     _renderItems() {
