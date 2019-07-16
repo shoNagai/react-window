@@ -484,7 +484,7 @@ export default function createListComponent({
       const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
 
       console.log(
-        '_getRangeToRender',
+        '■■■■■■■_getRangeToRender',
         lastMeasuredIndex,
         scrollOffset,
         totalMeasuredSize
