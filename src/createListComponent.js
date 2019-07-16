@@ -231,7 +231,6 @@ export default function createListComponent({
       const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
       console.log(
         'getSnapshotBeforeUpdate',
-        initialScrollOffset,
         lastMeasuredIndex,
         totalMeasuredSize
       );
