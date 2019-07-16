@@ -213,12 +213,39 @@ export default function createListComponent({
       );
     }
 
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+      // if (
+      //   prevState.localOlderPostsToRender[0] !==
+      //     this.state.localOlderPostsToRender[0] ||
+      //   prevState.localOlderPostsToRender[1] !==
+      //     this.state.localOlderPostsToRender[1]
+      // ) {
+      //   const element = this._outerRef;
+      //   const previousScrollTop = element.scrollTop;
+      //   const previousScrollHeight = element.scrollHeight;
+      //   return {
+      //     previousScrollTop,
+      //     previousScrollHeight,
+      //   };
+      // }
+      const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
+      console.log(
+        'getSnapshotBeforeUpdate',
+        initialScrollOffset,
+        lastMeasuredIndex,
+        totalMeasuredSize
+      );
+      console.log(prevProps, this.props);
+      console.log(prevState, this.state);
+      return null;
+    }
+
     componentDidMount() {
       const { direction, initialScrollOffset, layout } = this.props;
       const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
 
       console.log(
-        'componentDidUpdate',
+        'componentDidMount',
         initialScrollOffset,
         lastMeasuredIndex,
         totalMeasuredSize
