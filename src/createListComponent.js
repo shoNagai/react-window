@@ -524,12 +524,7 @@ export default function createListComponent({
         stopIndex
       );
 
-      return [
-        Math.max(0, startIndex - overscanBackward),
-        Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
-        startIndex,
-        stopIndex,
-      ];
+      return [16, 33, startIndex, stopIndex];
     }
 
     _renderItems() {
