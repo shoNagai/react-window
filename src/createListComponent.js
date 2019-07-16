@@ -273,13 +273,13 @@ export default function createListComponent({
       this._unmountHook();
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-      if (this.state.scrollOffset !== nextState.scrollOffset) {
-        console.log('shouldComponentUpdate', this.state, nextState);
-        return true;
-      }
-      return false;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //   if (this.state.scrollOffset !== nextState.scrollOffset) {
+    //     console.log('shouldComponentUpdate', this.state, nextState);
+    //     return true;
+    //   }
+    //   return false;
+    // }
 
     render() {
       const {
