@@ -153,8 +153,6 @@ export default function createListComponent({
       useIsScrolling: false,
     };
 
-    console.log('List', _instanceProps.totalMeasuredSize);
-
     state: State = {
       instance: this,
       isScrolling: false,
