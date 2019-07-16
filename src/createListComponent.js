@@ -160,7 +160,7 @@ export default function createListComponent({
       scrollOffset:
         typeof this.props.initialScrollOffset === 'number'
           ? this.props.initialScrollOffset
-          : 0,
+          : this._instanceProps.totalMeasuredSize,
       scrollUpdateWasRequested: false,
     };
 
@@ -213,42 +213,8 @@ export default function createListComponent({
       );
     }
 
-    getSnapshotBeforeUpdate(prevProps, prevState) {
-      // if (
-      //   prevState.localOlderPostsToRender[0] !==
-      //     this.state.localOlderPostsToRender[0] ||
-      //   prevState.localOlderPostsToRender[1] !==
-      //     this.state.localOlderPostsToRender[1]
-      // ) {
-      //   const element = this._outerRef;
-      //   const previousScrollTop = element.scrollTop;
-      //   const previousScrollHeight = element.scrollHeight;
-      //   return {
-      //     previousScrollTop,
-      //     previousScrollHeight,
-      //   };
-      // }
-      const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
-      console.log(
-        'getSnapshotBeforeUpdate',
-        lastMeasuredIndex,
-        totalMeasuredSize
-      );
-      console.log(prevProps, this.props);
-      console.log(prevState, this.state);
-      return null;
-    }
-
     componentDidMount() {
       const { direction, initialScrollOffset, layout } = this.props;
-      const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
-
-      console.log(
-        'componentDidMount',
-        initialScrollOffset,
-        lastMeasuredIndex,
-        totalMeasuredSize
-      );
 
       if (typeof initialScrollOffset === 'number' && this._outerRef != null) {
         const outerRef = ((this._outerRef: any): HTMLElement);
@@ -267,14 +233,6 @@ export default function createListComponent({
     componentDidUpdate() {
       const { direction, layout } = this.props;
       const { scrollOffset, scrollUpdateWasRequested } = this.state;
-      const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
-
-      console.log(
-        'componentDidUpdate',
-        scrollOffset,
-        lastMeasuredIndex,
-        totalMeasuredSize
-      );
 
       if (scrollUpdateWasRequested && this._outerRef != null) {
         const outerRef = ((this._outerRef: any): HTMLElement);
@@ -312,6 +270,12 @@ export default function createListComponent({
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+      const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
+      console.log(
+        'shouldComponentUpdate',
+        lastMeasuredIndex,
+        totalMeasuredSize
+      );
       if (this.state.scrollOffset !== nextState.scrollOffset) {
         console.log('shouldComponentUpdate');
         console.log(nextProps, this.props);
