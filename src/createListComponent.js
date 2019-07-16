@@ -233,6 +233,9 @@ export default function createListComponent({
     componentDidUpdate() {
       const { direction, layout } = this.props;
       const { scrollOffset, scrollUpdateWasRequested } = this.state;
+      const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
+
+      console.log('componentDidUpdate', lastMeasuredIndex, totalMeasuredSize);
 
       if (scrollUpdateWasRequested && this._outerRef != null) {
         const outerRef = ((this._outerRef: any): HTMLElement);
