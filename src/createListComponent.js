@@ -160,7 +160,7 @@ export default function createListComponent({
       scrollOffset:
         typeof this.props.initialScrollOffset === 'number'
           ? this.props.initialScrollOffset
-          : _instanceProps.totalMeasuredSize,
+          : this._instanceProps.totalMeasuredSize,
       scrollUpdateWasRequested: false,
     };
 
