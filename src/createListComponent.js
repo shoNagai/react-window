@@ -487,7 +487,7 @@ export default function createListComponent({
       }
 
       const scrollOffsetValue =
-        totalMeasuredSize >= 0 ? totalMeasuredSize : scrollOffset;
+        scrollOffset >= 0 ? scrollOffset : totalMeasuredSize;
       const startIndex = getStartIndexForOffset(
         this.props,
         scrollOffsetValue,
