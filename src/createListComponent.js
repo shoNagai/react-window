@@ -271,12 +271,8 @@ export default function createListComponent({
 
     shouldComponentUpdate(nextProps, nextState) {
       if (this.state.scrollOffset !== nextState.scrollOffset) {
-        console.log('無効');
         return true;
       }
-      console.log('shouldComponentUpdate');
-      console.log(nextProps, this.props);
-      console.log(nextState, this.state);
       return false;
     }
 
