@@ -474,6 +474,8 @@ export default function createListComponent({
       const { itemCount, overscanCount } = this.props;
       const { isScrolling, scrollDirection, scrollOffset } = this.state;
 
+      console.log('_getRangeToRender scrollOffset', scrollOffset);
+
       if (itemCount === 0) {
         return [0, 0, 0, 0];
       }
