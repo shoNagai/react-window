@@ -483,25 +483,29 @@ export default function createListComponent({
       const { isScrolling, scrollDirection, scrollOffset } = this.state;
       const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
 
-      console.log('_getRangeToRender', scrollOffset, totalMeasuredSize);
+      console.log(
+        '_getRangeToRender',
+        lastMeasuredIndex,
+        scrollOffset,
+        totalMeasuredSize
+      );
 
       if (itemCount === 0) {
         return [0, 0, 0, 0];
       }
 
-      const scrollOffsetValue = isReverseScroll
-        ? totalMeasuredSize
-        : scrollOffset;
+      // const scrollOffsetValue =
+      //   scrollOffset >= 0 ? scrollOffset : totalMeasuredSize;
       const startIndex = getStartIndexForOffset(
         this.props,
-        scrollOffsetValue,
+        scrollOffset,
         this._instanceProps
       );
 
       const stopIndex = getStopIndexForStartIndex(
         this.props,
         startIndex,
-        0,
+        scrollOffset,
         this._instanceProps
       );
 
@@ -517,14 +521,19 @@ export default function createListComponent({
           : 1;
 
       console.log(
-        '■■■■■■■■■ _getRangeToRender',
+        '■■■■■■■_getRangeToRender',
         Math.max(0, startIndex - overscanBackward),
         Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
         startIndex,
         stopIndex
       );
 
-      return [16, 32, startIndex, stopIndex];
+      return [
+        Math.max(0, startIndex - overscanBackward),
+        Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
+        startIndex,
+        stopIndex,
+      ];
     }
 
     _renderItems() {
