@@ -277,8 +277,6 @@ export default function createListComponent({
       return false;
     }
 
-    console.log('before render');
-
     render() {
       const {
         className,
