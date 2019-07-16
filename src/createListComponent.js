@@ -153,6 +153,8 @@ export default function createListComponent({
       useIsScrolling: false,
     };
 
+    console.log('List', _instanceProps.totalMeasuredSize);
+
     state: State = {
       instance: this,
       isScrolling: false,
@@ -160,7 +162,7 @@ export default function createListComponent({
       scrollOffset:
         typeof this.props.initialScrollOffset === 'number'
           ? this.props.initialScrollOffset
-          : 0,
+          : _instanceProps.totalMeasuredSize,
       scrollUpdateWasRequested: false,
     };
 
@@ -216,6 +218,8 @@ export default function createListComponent({
     componentDidMount() {
       const { direction, initialScrollOffset, layout } = this.props;
 
+      console.log('componentDidMount initialScrollOffset', initialScrollOffset);
+
       if (typeof initialScrollOffset === 'number' && this._outerRef != null) {
         const outerRef = ((this._outerRef: any): HTMLElement);
         // TODO Deprecate direction "horizontal"
@@ -233,6 +237,8 @@ export default function createListComponent({
     componentDidUpdate() {
       const { direction, layout } = this.props;
       const { scrollOffset, scrollUpdateWasRequested } = this.state;
+
+      console.log('componentDidUpdate scrollOffset', scrollOffset);
 
       if (scrollUpdateWasRequested && this._outerRef != null) {
         const outerRef = ((this._outerRef: any): HTMLElement);
