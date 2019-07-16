@@ -501,7 +501,7 @@ export default function createListComponent({
       const stopIndex = getStopIndexForStartIndex(
         this.props,
         startIndex,
-        scrollOffsetValue,
+        0,
         this._instanceProps
       );
 
@@ -521,8 +521,8 @@ export default function createListComponent({
       return [
         Math.max(0, startIndex - overscanBackward),
         Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
-        startIndex,
-        stopIndex,
+        16,
+        33,
       ];
     }
 
