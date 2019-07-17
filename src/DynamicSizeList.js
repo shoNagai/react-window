@@ -543,7 +543,8 @@ const DynamicSizeList = createListComponent({
 
       const items = [];
       if (itemCount > 0) {
-        for (let index = startIndex; index <= stopIndex; index++) {
+        // for (let index = startIndex; index <= stopIndex; index++) {
+        for (let index = itemCount - 1; index >= 0; index--) {
           const { size } = getItemMetadata(
             instance.props,
             index,
