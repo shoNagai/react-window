@@ -162,7 +162,7 @@ export default function createListComponent({
       scrollOffset:
         typeof this.props.initialScrollOffset === 'number'
           ? this.props.initialScrollOffset
-          : this.props.itemCount - 1,
+          : 0,
       scrollUpdateWasRequested: false,
     };
 
