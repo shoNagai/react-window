@@ -216,7 +216,6 @@ const DynamicSizeList = createListComponent({
     // If we've already positioned and measured past this point,
     // Use a binary search to find the closets cell.
     if (offset <= totalMeasuredSize) {
-      return 18;
       return findNearestItemBinarySearch(
         props,
         instanceProps,
@@ -252,7 +251,7 @@ const DynamicSizeList = createListComponent({
       offset += getItemMetadata(props, stopIndex, instanceProps).size;
     }
 
-    return 32;
+    return stopIndex;
   },
 
   getStartIndexForOffsetReverse: (
