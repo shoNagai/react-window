@@ -167,7 +167,7 @@ export default function createListComponent({
       layout: 'vertical',
       overscanCount: 2,
       useIsScrolling: false,
-      isReverseScroll: true, // TODO 翔
+      isReverseScroll: false, // TODO 翔
     };
 
     state: State = {

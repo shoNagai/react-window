@@ -92,10 +92,10 @@ const findNearestItemBinarySearch = (
   instanceProps: InstanceProps,
   high: number,
   low: number,
-  offset: number
+  scrollOffset: number
 ): number => {
   console.log(`findNearestItemBinarySearch start`);
-  console.log(`high ${high} low ${low} offset ${offset}`);
+  console.log(`high ${high} low ${low} offset ${scrollOffset}`);
 
   while (low <= high) {
     const middle = low + Math.floor((high - low) / 2);
@@ -103,11 +103,11 @@ const findNearestItemBinarySearch = (
 
     console.log(`middle ${middle} currentOffset ${currentOffset}`);
 
-    if (currentOffset === offset) {
+    if (currentOffset === scrollOffset) {
       return middle;
-    } else if (currentOffset < offset) {
+    } else if (currentOffset < scrollOffset) {
       low = middle + 1;
-    } else if (currentOffset > offset) {
+    } else if (currentOffset > scrollOffset) {
       high = middle - 1;
     }
   }
@@ -208,20 +208,20 @@ const DynamicSizeList = createListComponent({
 
   getStartIndexForOffset: (
     props: Props<any>,
-    offset: number,
+    scrollOffset: number,
     instanceProps: InstanceProps
   ): number => {
     const { lastMeasuredIndex, totalMeasuredSize } = instanceProps;
 
     // If we've already positioned and measured past this point,
     // Use a binary search to find the closets cell.
-    if (offset <= totalMeasuredSize) {
+    if (scrollOffset <= totalMeasuredSize) {
       return findNearestItemBinarySearch(
         props,
         instanceProps,
         lastMeasuredIndex,
         0,
-        offset
+        scrollOffset
       );
     }
 
