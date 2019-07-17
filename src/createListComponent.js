@@ -167,7 +167,7 @@ export default function createListComponent({
       layout: 'vertical',
       overscanCount: 2,
       useIsScrolling: false,
-      isReverseScroll: false, // TODO 翔
+      isReverseScroll: true, // TODO 翔
     };
 
     state: State = {
@@ -527,12 +527,17 @@ export default function createListComponent({
           this._instanceProps
         );
 
-        return [
-          Math.max(0, stopIndex - overscanBackward),
-          Math.max(0, Math.min(itemCount - 1, startIndex + overscanForward)),
-          stopIndex,
-          startIndex,
-        ];
+        const calcStartIndex = Math.max(0, stopIndex - overscanBackward);
+        const calcStopIndex = Math.max(
+          0,
+          Math.min(itemCount - 1, startIndex + overscanForward)
+        );
+
+        console.log(
+          `calcStartIndex ${calcStartIndex}, calcStopIndex ${calcStopIndex}, startIndex ${startIndex}, stopIndex ${stopIndex}`
+        );
+
+        return [calcStartIndex, calcStopIndex, stopIndex, startIndex];
       } else {
         // nomal direction
         const startIndex = getStartIndexForOffset(
@@ -547,12 +552,16 @@ export default function createListComponent({
           this._instanceProps
         );
 
-        return [
-          Math.max(0, startIndex - overscanBackward),
-          Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
-          startIndex,
-          stopIndex,
-        ];
+        const calcStartIndex = Math.max(0, startIndex - overscanBackward);
+        const calcStopIndex = Math.max(
+          0,
+          Math.min(itemCount - 1, stopIndex + overscanForward)
+        );
+
+        console.log(
+          `calcStartIndex ${calcStartIndex}, calcStopIndex ${calcStopIndex}, startIndex ${startIndex}, stopIndex ${stopIndex}`
+        );
+        return [calcStartIndex, calcStopIndex, startIndex, stopIndex];
       }
     }
 
