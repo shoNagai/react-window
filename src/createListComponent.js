@@ -501,6 +501,17 @@ export default function createListComponent({
         return [0, 0, 0, 0];
       }
 
+      // Overscan by one item in each direction so that tab/focus works.
+      // If there isn't at least one extra item, tab loops back around.
+      const overscanBackward =
+        !isScrolling || scrollDirection === 'backward'
+          ? Math.max(1, overscanCount)
+          : 1;
+      const overscanForward =
+        !isScrolling || scrollDirection === 'forward'
+          ? Math.max(1, overscanCount)
+          : 1;
+
       if (isReverseScroll) {
         // reverse direction
         const startIndex = getStartIndexForOffsetReverse(
@@ -515,22 +526,10 @@ export default function createListComponent({
           scrollOffset,
           this._instanceProps
         );
-
-        // Overscan by one item in each direction so that tab/focus works.
-        // If there isn't at least one extra item, tab loops back around.
-        const overscanBackward =
-          !isScrolling || scrollDirection === 'backward'
-            ? Math.max(1, overscanCount)
-            : 1;
-        const overscanForward =
-          !isScrolling || scrollDirection === 'forward'
-            ? Math.max(1, overscanCount)
-            : 1;
-
-        console.log('■■■■■■■_getRangeToRender', startIndex, stopIndex);
+        console.log(`stopIndex ${stopIndex}`);
 
         console.log(
-          '■■■■■■■_getRangeToRender',
+          '_getRangeToRender result',
           Math.max(0, stopIndex - overscanBackward),
           Math.max(0, Math.min(itemCount - 1, startIndex + overscanForward))
         );
@@ -538,8 +537,8 @@ export default function createListComponent({
         return [
           Math.max(0, stopIndex - overscanBackward),
           Math.max(0, Math.min(itemCount - 1, startIndex + overscanForward)),
-          startIndex,
           stopIndex,
+          startIndex,
         ];
       } else {
         // nomal direction
@@ -554,17 +553,6 @@ export default function createListComponent({
           scrollOffset,
           this._instanceProps
         );
-
-        // Overscan by one item in each direction so that tab/focus works.
-        // If there isn't at least one extra item, tab loops back around.
-        const overscanBackward =
-          !isScrolling || scrollDirection === 'backward'
-            ? Math.max(1, overscanCount)
-            : 1;
-        const overscanForward =
-          !isScrolling || scrollDirection === 'forward'
-            ? Math.max(1, overscanCount)
-            : 1;
 
         return [
           Math.max(0, startIndex - overscanBackward),

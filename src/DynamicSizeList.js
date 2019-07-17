@@ -286,6 +286,10 @@ const DynamicSizeList = createListComponent({
   ): number => {
     const { direction, layout, height, itemCount, width } = props;
 
+    console.log(`getStopIndexForStartIndexReverse start`);
+    console.log(`direction ${direction} layout ${layout}`);
+    console.log(`height ${height} itemCount ${itemCount} width ${width}`);
+
     const size = (((direction === 'horizontal' || layout === 'horizontal'
       ? width
       : height): any): number);
@@ -295,11 +299,16 @@ const DynamicSizeList = createListComponent({
     let offset = itemMetadata.offset + itemMetadata.size;
     let stopIndex = startIndex;
 
+    console.log(
+      `stopIndex ${stopIndex} offset ${offset} maxOffset ${maxOffset}`
+    );
     while (stopIndex < itemCount && offset < maxOffset) {
       stopIndex--;
       offset += getItemMetadata(props, stopIndex, instanceProps).size;
+      console.log(`stopIndex ${stopIndex} offset ${offset}`);
     }
 
+    console.log(`getStopIndexForStartIndexReverse end`);
     return stopIndex;
   },
 
