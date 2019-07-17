@@ -526,12 +526,12 @@ export default function createListComponent({
             ? Math.max(1, overscanCount)
             : 1;
 
+        console.log('■■■■■■■_getRangeToRender', startIndex, stopIndex);
+
         console.log(
           '■■■■■■■_getRangeToRender',
-          Math.max(0, startIndex - overscanBackward),
-          Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
-          startIndex,
-          stopIndex
+          Math.max(0, stopIndex - overscanBackward),
+          Math.max(0, Math.min(itemCount - 1, startIndex + overscanForward))
         );
 
         return [
