@@ -257,7 +257,14 @@ const DynamicSizeList = createListComponent({
     scrollOffset: number,
     instanceProps: InstanceProps
   ): number => {
-    const { direction, layout, height, itemCount, width } = props;
+    const {
+      direction,
+      layout,
+      height,
+      itemCount,
+      width,
+      isReverseScroll,
+    } = props;
 
     console.log('getStopIndexForStartIndex start');
     console.log(
@@ -284,7 +291,11 @@ const DynamicSizeList = createListComponent({
     // }
     while (stopIndex < itemCount - 1 && offset < maxOffset) {
       console.log(`stopIndex ${stopIndex} offset ${offset}`);
-      stopIndex++;
+      if (isReverseScroll) {
+        stopIndex--;
+      } else {
+        stopIndex++;
+      }
       offset += getItemMetadata(props, stopIndex, instanceProps).size;
     }
 
