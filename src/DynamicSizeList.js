@@ -268,7 +268,7 @@ const DynamicSizeList = createListComponent({
 
     console.log('getStopIndexForStartIndex start');
     console.log(
-      `height ${height} startIndex ${startIndex} scrollOffset ${scrollOffset} itemCount ${itemCount}`
+      `height ${height} startIndex ${startIndex} scrollOffset ${scrollOffset}`
     );
 
     // let stopIndex = startIndex;
@@ -277,8 +277,6 @@ const DynamicSizeList = createListComponent({
       : height): any): number);
     const itemMetadata = getItemMetadata(props, startIndex, instanceProps);
     const maxOffset = scrollOffset + size;
-
-    console.log(`maxOffset ${maxOffset}`);
 
     let offset = itemMetadata.offset + itemMetadata.size;
     let stopIndex = startIndex;
@@ -289,14 +287,18 @@ const DynamicSizeList = createListComponent({
     //   console.log(`offset ${offset} stopIndex ${stopIndex}`);
     //   stopIndex--;
     // }
+    console.log(
+      `isReverseScroll ${isReverseScroll} stopIndex ${stopIndex} itemCount ${itemCount} offset ${offset} maxOffset ${maxOffset}`
+    );
+
     while (stopIndex < itemCount - 1 && offset < maxOffset) {
-      console.log(`stopIndex ${stopIndex} offset ${offset}`);
       if (isReverseScroll) {
         stopIndex--;
       } else {
         stopIndex++;
       }
       offset += getItemMetadata(props, stopIndex, instanceProps).size;
+      console.log(`stopIndex ${stopIndex} offset ${offset}`);
     }
 
     console.log(`stopIndex ${stopIndex} offset ${offset}`);
