@@ -211,7 +211,12 @@ const DynamicSizeList = createListComponent({
     scrollOffset: number,
     instanceProps: InstanceProps
   ): number => {
+    const { direction, layout, height, itemCount, width } = props;
     const { lastMeasuredIndex, totalMeasuredSize } = instanceProps;
+
+    console.log(
+      `■■■ itemCount ${itemCount} lastMeasuredIndex ${lastMeasuredIndex}, totalMeasuredSize ${totalMeasuredSize}`
+    );
 
     // If we've already positioned and measured past this point,
     // Use a binary search to find the closets cell.
