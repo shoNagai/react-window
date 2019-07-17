@@ -283,6 +283,7 @@ const DynamicSizeList = createListComponent({
     //   stopIndex--;
     // }
     while (stopIndex < itemCount - 1 && offset < maxOffset) {
+      console.log(`stopIndex ${stopIndex} offset ${offset}`);
       stopIndex++;
       offset += getItemMetadata(props, stopIndex, instanceProps).size;
     }
