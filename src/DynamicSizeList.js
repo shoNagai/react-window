@@ -279,7 +279,7 @@ const DynamicSizeList = createListComponent({
     const maxOffset = scrollOffset + size;
 
     let offset = itemMetadata.offset + itemMetadata.size;
-    let stopIndex = startIndex;
+    let stopIndex = isReverseScroll ? 0 : startIndex;
     // let closestOffsetIndex = 0;
     // while (stopIndex > 0 && offset <= maxOffset) {
     //   const itemMetadata = getItemMetadata(props, stopIndex, instanceProps);
