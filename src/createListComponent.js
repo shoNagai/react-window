@@ -495,6 +495,7 @@ export default function createListComponent({
         return [0, 0, 0, 0];
       }
 
+      // TODO: 翔
       // const scrollOffsetValue =
       //   scrollOffset >= 0 ? scrollOffset : totalMeasuredSize;
       const startIndex = getStartIndexForOffset(

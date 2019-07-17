@@ -225,7 +225,7 @@ const DynamicSizeList = createListComponent({
     offset: number,
     instanceProps: InstanceProps
   ): number => {
-    const { itemCount } = props;
+    const { itemCount, isReverseScroll } = props;
     const { lastMeasuredIndex, totalMeasuredSize } = instanceProps;
 
     console.log('getStartIndexForOffset start');
@@ -240,8 +240,7 @@ const DynamicSizeList = createListComponent({
         props,
         instanceProps,
         lastMeasuredIndex,
-        // itemCount,
-        0,
+        isReverseScroll ? itemCount : 0,
         offset
       );
     }
