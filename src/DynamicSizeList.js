@@ -92,7 +92,7 @@ const findNearestItemBinarySearch = (
   instanceProps: InstanceProps,
   high: number,
   low: number,
-  offset: number
+  scrollOffset: number
 ): number => {
   let index = low;
   while (low <= high) {
