@@ -94,32 +94,15 @@ const findNearestItemBinarySearch = (
   low: number,
   offset: number
 ): number => {
-  console.log(`findNearestItemBinarySearch start`);
-  console.log(`high ${high} low ${low} offset ${offset}`);
-
+  let index = low;
   while (low <= high) {
-    const middle = low + Math.floor((high - low) / 2);
-    const currentOffset = getItemMetadata(props, middle, instanceProps).offset;
-
-    console.log(`middle ${middle} currentOffset ${currentOffset}`);
-
-    if (currentOffset === offset) {
-      return middle;
-    } else if (currentOffset < offset) {
-      low = middle + 1;
-    } else if (currentOffset > offset) {
-      high = middle - 1;
+    var currentOffset = getItemMetadata(props, low, instanceProps).offset;
+    if (offset - currentOffset <= 0) {
+      index = low;
     }
+    low++;
   }
-
-  console.log(`low ${low}`);
-  console.log(`findNearestItemBinarySearch end`);
-
-  if (low > 0) {
-    return low - 1;
-  } else {
-    return 0;
-  }
+  return index;
 };
 
 const getEstimatedTotalSize = (
@@ -259,8 +242,8 @@ const DynamicSizeList = createListComponent({
     offset: number,
     instanceProps: InstanceProps
   ): number => {
+    const { totalMeasuredSize } = instanceProps;
     const { itemCount } = props;
-    const { lastMeasuredIndex, totalMeasuredSize } = instanceProps;
 
     // If we've already positioned and measured past this point,
     // Use a binary search to find the closets cell.
@@ -268,14 +251,14 @@ const DynamicSizeList = createListComponent({
       return findNearestItemBinarySearch(
         props,
         instanceProps,
-        lastMeasuredIndex,
         itemCount,
+        0,
         offset
       );
     }
 
-    // Otherwise render a new batch of items starting from where we left off.
-    return lastMeasuredIndex + 1;
+    // Otherwise render a new batch of items starting from where 0.
+    return 0;
   },
 
   getStopIndexForStartIndexReverse: (
@@ -284,33 +267,23 @@ const DynamicSizeList = createListComponent({
     scrollOffset: number,
     instanceProps: InstanceProps
   ): number => {
-    const { direction, layout, height, itemCount, width } = props;
+    const { itemCount } = props;
 
-    // console.log(`getStopIndexForStartIndexReverse start`);
-    // console.log(`startIndex ${startIndex} scrollOffset ${scrollOffset}`);
-    // console.log(`direction ${direction} layout ${layout}`);
-    // console.log(`height ${height} itemCount ${itemCount} width ${width}`);
-
-    const size = (((direction === 'horizontal' || layout === 'horizontal'
-      ? width
-      : height): any): number);
-    const itemMetadata = getItemMetadata(props, startIndex, instanceProps);
-    // console.log(`size ${size} itemMetadata`, itemMetadata);
-    const maxOffset = scrollOffset + size;
-
-    let offset = itemMetadata.offset + itemMetadata.size;
     let stopIndex = startIndex;
-
-    // console.log(
-    //   `stopIndex ${stopIndex} offset ${offset} maxOffset ${maxOffset}`
-    // );
-    while (stopIndex < itemCount && offset < maxOffset) {
+    const maxOffset = scrollOffset + props.height;
+    const itemMetadata = getItemMetadata(props, stopIndex, instanceProps);
+    let offset = itemMetadata.offset + (itemMetadata.size || 0);
+    let closestOffsetIndex = 0;
+    while (stopIndex > 0 && offset <= maxOffset) {
+      const itemMetadata = getItemMetadata(props, stopIndex, instanceProps);
+      offset = itemMetadata.offset + itemMetadata.size;
       stopIndex--;
-      offset += getItemMetadata(props, stopIndex, instanceProps).size;
-      console.log(`stopIndex ${stopIndex} offset ${offset}`);
     }
 
-    // console.log(`getStopIndexForStartIndexReverse end`);
+    if (stopIndex >= itemCount) {
+      return closestOffsetIndex;
+    }
+
     return stopIndex;
   },
 
@@ -539,16 +512,11 @@ const DynamicSizeList = createListComponent({
 
       const [startIndex, stopIndex] = instance._getRangeToRender();
 
-      console.log(
-        '_renderItems _getRangeToRender',
-        startIndex,
-        stopIndex,
-        itemData
-      );
+      console.log('_renderItems _getRangeToRender', startIndex, stopIndex);
 
       const items = [];
       if (itemCount > 0) {
-        for (let index = startIndex; index <= stopIndex; index++) {
+        for (let index = itemCount - 1; index >= 0; index--) {
           const { size } = getItemMetadata(
             instance.props,
             index,
