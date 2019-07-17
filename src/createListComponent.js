@@ -233,8 +233,6 @@ export default function createListComponent({
     componentDidMount() {
       const { direction, initialScrollOffset, layout } = this.props;
 
-      console.log('componentDidMount initialScrollOffset', initialScrollOffset);
-
       if (typeof initialScrollOffset === 'number' && this._outerRef != null) {
         const outerRef = ((this._outerRef: any): HTMLElement);
         // TODO Deprecate direction "horizontal"
@@ -252,8 +250,6 @@ export default function createListComponent({
     componentDidUpdate() {
       const { direction, layout } = this.props;
       const { scrollOffset, scrollUpdateWasRequested } = this.state;
-
-      console.log('componentDidUpdate scrollOffset', scrollOffset);
 
       if (scrollUpdateWasRequested && this._outerRef != null) {
         const outerRef = ((this._outerRef: any): HTMLElement);
@@ -292,7 +288,7 @@ export default function createListComponent({
 
     // TODO: 要確認、無駄なレンダリング防止で入れたいが
     shouldComponentUpdate(nextProps, nextState) {
-      if (this.state.scrollOffset < nextState.scrollOffset) {
+      if (this.state.scrollOffset !== nextState.scrollOffset) {
         console.log(
           'shouldComponentUpdate',
           this.state.scrollOffset,
@@ -524,24 +520,11 @@ export default function createListComponent({
           scrollOffset,
           this._instanceProps
         );
-        console.log(`startIndex ${startIndex}`);
-
-        console.log(
-          `scrollOffset ${scrollOffset} totalMeasuredSize ${totalMeasuredSize}`
-        );
-
         const stopIndex = getStopIndexForStartIndexReverse(
           this.props,
           startIndex,
           scrollOffset,
           this._instanceProps
-        );
-        console.log(`stopIndex ${stopIndex}`);
-
-        console.log(
-          '_getRangeToRender result',
-          Math.max(0, stopIndex - overscanBackward),
-          Math.max(0, Math.min(itemCount - 1, startIndex + overscanForward))
         );
 
         return [
