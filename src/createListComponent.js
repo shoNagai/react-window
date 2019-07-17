@@ -502,54 +502,37 @@ export default function createListComponent({
         return [0, 0, 0, 0];
       }
 
+      // Overscan by one item in each direction so that tab/focus works.
+      // If there isn't at least one extra item, tab loops back around.
+      const overscanBackward =
+        !isScrolling || scrollDirection === 'backward'
+          ? Math.max(1, overscanCount)
+          : 1;
+      const overscanForward =
+        !isScrolling || scrollDirection === 'forward'
+          ? Math.max(1, overscanCount)
+          : 1;
+
       if (isReverseScroll) {
-        const scrollOffsetValue = scrollOffset;
-        const startIndex = getStartIndexForOffset(
+        // reverse direction
+        const startIndex = getStartIndexForOffsetReverse(
           this.props,
-          scrollOffsetValue,
+          scrollOffset,
           this._instanceProps
         );
-        const stopIndex = getStopIndexForStartIndex(
+        const stopIndex = getStopIndexForStartIndexReverse(
           this.props,
           startIndex,
-          scrollOffsetValue,
+          scrollOffset,
           this._instanceProps
         );
 
-        // Overscan by one item in each direction so that tab/focus works.
-        // If there isn't at least one extra item, tab loops back around.
-        const overscanBackward =
-          scrollDirection === 'backward'
-            ? overscanCountBackward
-            : Math.max(1, overscanCountForward);
-
-        const overscanForward =
-          scrollDirection === 'forward'
-            ? overscanCountBackward
-            : Math.max(1, overscanCountForward);
-
-        const minValue = Math.max(0, stopIndex - overscanBackward);
-        let maxValue = Math.max(
-          0,
-          Math.min(itemCount - 1, startIndex + overscanForward)
-        );
-
-        while (
-          !getItemSize(this.props, maxValue, this._instanceProps) &&
-          maxValue > 0 &&
-          this._instanceProps.totalMeasuredSize > this.props.height
-        ) {
-          maxValue--;
-        }
-
-        if (
-          !this.state.scrolledToInitIndex &&
-          this.props.initRangeToRender.length
-        ) {
-          return this.props.initRangeToRender;
-        }
-
-        return [minValue, maxValue, startIndex, stopIndex];
+        return [
+          Math.max(0, stopIndex - overscanBackward),
+          Math.max(0, Math.min(itemCount - 1, startIndex + overscanForward)),
+          stopIndex,
+          startIndex,
+        ];
       } else {
         // nomal direction
         const startIndex = getStartIndexForOffset(
@@ -564,23 +547,13 @@ export default function createListComponent({
           this._instanceProps
         );
 
-        // Overscan by one item in each direction so that tab/focus works.
-        // If there isn't at least one extra item, tab loops back around.
-        const overscanBackward =
-          !isScrolling || scrollDirection === 'backward'
-            ? Math.max(1, overscanCount)
-            : 1;
-        const overscanForward =
-          !isScrolling || scrollDirection === 'forward'
-            ? Math.max(1, overscanCount)
-            : 1;
-
-        return [
-          Math.max(0, startIndex - overscanBackward),
-          Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
-          startIndex,
-          stopIndex,
-        ];
+        // return [
+        //   Math.max(0, startIndex - overscanBackward),
+        //   Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
+        //   startIndex,
+        //   stopIndex,
+        // ];
+        return [18, 32, 18, 32];
       }
     }
 
