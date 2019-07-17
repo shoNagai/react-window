@@ -94,12 +94,13 @@ const findNearestItemBinarySearch = (
   low: number,
   offset: number
 ): number => {
+  console.log(`findNearestItemBinarySearch start`);
+  console.log(`high ${high} low ${low} offset ${offset}`);
+
   while (low <= high) {
     const middle = low + Math.floor((high - low) / 2);
     const currentOffset = getItemMetadata(props, middle, instanceProps).offset;
 
-    console.log(`findNearestItemBinarySearch start`);
-    console.log(`high ${high} low ${low} offset ${offset}`);
     console.log(`middle ${middle} currentOffset ${currentOffset}`);
 
     if (currentOffset === offset) {
