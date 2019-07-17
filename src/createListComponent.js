@@ -547,13 +547,12 @@ export default function createListComponent({
           this._instanceProps
         );
 
-        // return [
-        //   Math.max(0, startIndex - overscanBackward),
-        //   Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
-        //   startIndex,
-        //   stopIndex,
-        // ];
-        return [18, 32, 18, 32];
+        return [
+          Math.max(0, startIndex - overscanBackward),
+          Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
+          startIndex,
+          stopIndex,
+        ];
       }
     }
 
