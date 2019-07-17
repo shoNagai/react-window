@@ -298,7 +298,8 @@ const DynamicSizeList = createListComponent({
     console.log(`size ${size} itemMetadata`, itemMetadata);
     const maxOffset = scrollOffset + size;
 
-    let offset = itemMetadata.offset + itemMetadata.size;
+    // let offset = itemMetadata.offset + itemMetadata.size;
+    let offset = 0;
     let stopIndex = startIndex;
 
     console.log(
