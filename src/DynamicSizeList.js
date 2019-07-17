@@ -290,9 +290,8 @@ const DynamicSizeList = createListComponent({
     console.log(
       `isReverseScroll ${isReverseScroll} stopIndex ${stopIndex} itemCount ${itemCount} offset ${offset} maxOffset ${maxOffset}`
     );
-
-    // while (stopIndex < itemCount - 1 && offset < maxOffset) {
-    while (stopIndex < itemCount && offset < maxOffset) {
+    const conditionCount = isReverseScroll ? itemCount : itemCount - 1;
+    while (stopIndex < conditionCount && offset < maxOffset) {
       if (isReverseScroll) {
         stopIndex--;
       } else {
