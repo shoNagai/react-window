@@ -208,11 +208,12 @@ const DynamicSizeList = createListComponent({
     instanceProps: InstanceProps
   ): number => {
     const { itemCount } = props;
-    const { totalMeasuredSize } = instanceProps;
+    const { lastMeasuredIndex, totalMeasuredSize } = instanceProps;
 
     console.log('getStartIndexForOffset start');
+    console.log(`offset ${offset} itemCount ${itemCount}`);
     console.log(
-      `offset ${offset} totalMeasuredSize ${totalMeasuredSize} itemCount ${itemCount}`
+      `lastMeasuredIndex ${lastMeasuredIndex} totalMeasuredSize ${totalMeasuredSize}`
     );
     // If we've already positioned and measured past this point,
     // Use a binary search to find the closets cell.
@@ -220,7 +221,7 @@ const DynamicSizeList = createListComponent({
       return findNearestItemBinarySearch(
         props,
         instanceProps,
-        itemCount,
+        itemCount, //もとはlastMeasuredIndex
         0,
         offset
       );
@@ -228,6 +229,7 @@ const DynamicSizeList = createListComponent({
 
     console.log('getStartIndexForOffset end');
     // Otherwise render a new batch of items starting from where we left off.
+    // return lastMeasuredIndex + 1;
     return 0;
   },
 
