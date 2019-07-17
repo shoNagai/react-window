@@ -102,6 +102,17 @@ type GetStopIndexForStartIndex = (
   scrollOffset: number,
   instanceProps: any
 ) => number;
+type GetStartIndexForOffsetReverse = (
+  props: Props<any>,
+  offset: number,
+  instanceProps: any
+) => number;
+type GetStopIndexForStartIndexReverse = (
+  props: Props<any>,
+  startIndex: number,
+  scrollOffset: number,
+  instanceProps: any
+) => number;
 type InitInstanceProps = (props: Props<any>, instance: any) => any;
 type ValidateProps = (props: Props<any>) => void;
 
@@ -127,6 +138,8 @@ export default function createListComponent({
   getOffsetForIndexAndAlignment,
   getStartIndexForOffset,
   getStopIndexForStartIndex,
+  getStartIndexForOffsetReverse,
+  getStopIndexForStartIndexReverse,
   initInstanceProps,
   shouldResetStyleCacheOnItemSizeChange,
   validateProps,
@@ -137,6 +150,8 @@ export default function createListComponent({
   getOffsetForIndexAndAlignment: GetOffsetForIndexAndAlignment,
   getStartIndexForOffset: GetStartIndexForOffset,
   getStopIndexForStartIndex: GetStopIndexForStartIndex,
+  getStartIndexForOffsetReverse: etStartIndexForOffsetReverse,
+  getStopIndexForStartIndexReverse: GetStopIndexForStartIndexReverse,
   initInstanceProps: InitInstanceProps,
   shouldResetStyleCacheOnItemSizeChange: boolean,
   validateProps: ValidateProps,
@@ -481,68 +496,82 @@ export default function createListComponent({
     _getRangeToRender(): [number, number, number, number] {
       const { itemCount, overscanCount, isReverseScroll } = this.props;
       const { isScrolling, scrollDirection, scrollOffset } = this.state;
-      const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
-
-      console.log('_getRangeToRender start');
-
-      console.log(`itemCount ${itemCount} overscanCount ${overscanCount}`);
-      console.log(`scrollOffset ${scrollOffset}`);
-      console.log(
-        `lastMeasuredIndex ${lastMeasuredIndex} totalMeasuredSize ${totalMeasuredSize}`
-      );
 
       if (itemCount === 0) {
         return [0, 0, 0, 0];
       }
 
-      // TODO: 翔
-      // const scrollOffsetValue =
-      //   scrollOffset >= 0 ? scrollOffset : totalMeasuredSize;
-      const startIndex = getStartIndexForOffset(
-        this.props,
-        scrollOffset,
-        this._instanceProps
-      );
+      if (isReverseScroll) {
+        // reverse direction
+        const startIndex = getStartIndexForOffsetReverse(
+          this.props,
+          scrollOffset,
+          this._instanceProps
+        );
+        const stopIndex = getStopIndexForStartIndexReverse(
+          this.props,
+          startIndex,
+          scrollOffset,
+          this._instanceProps
+        );
 
-      console.log(`startIndex ${startIndex}`);
+        // Overscan by one item in each direction so that tab/focus works.
+        // If there isn't at least one extra item, tab loops back around.
+        const overscanBackward =
+          !isScrolling || scrollDirection === 'backward'
+            ? Math.max(1, overscanCount)
+            : 1;
+        const overscanForward =
+          !isScrolling || scrollDirection === 'forward'
+            ? Math.max(1, overscanCount)
+            : 1;
 
-      const stopIndex = getStopIndexForStartIndex(
-        this.props,
-        startIndex,
-        scrollOffset,
-        this._instanceProps
-      );
+        console.log(
+          '■■■■■■■_getRangeToRender',
+          Math.max(0, startIndex - overscanBackward),
+          Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
+          startIndex,
+          stopIndex
+        );
 
-      console.log(`stopIndex ${stopIndex}`);
+        return [
+          Math.max(0, startIndex - overscanBackward),
+          Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
+          startIndex,
+          stopIndex,
+        ];
+      } else {
+        // nomal direction
+        const startIndex = getStartIndexForOffset(
+          this.props,
+          scrollOffset,
+          this._instanceProps
+        );
+        const stopIndex = getStopIndexForStartIndex(
+          this.props,
+          startIndex,
+          scrollOffset,
+          this._instanceProps
+        );
 
-      const reStartIndex = stopIndex;
-      const reStopIndex = startIndex;
+        // Overscan by one item in each direction so that tab/focus works.
+        // If there isn't at least one extra item, tab loops back around.
+        const overscanBackward =
+          !isScrolling || scrollDirection === 'backward'
+            ? Math.max(1, overscanCount)
+            : 1;
+        const overscanForward =
+          !isScrolling || scrollDirection === 'forward'
+            ? Math.max(1, overscanCount)
+            : 1;
 
-      // Overscan by one item in each direction so that tab/focus works.
-      // If there isn't at least one extra item, tab loops back around.
-      const overscanBackward =
-        !isScrolling || scrollDirection === 'backward'
-          ? Math.max(1, overscanCount)
-          : 1;
-      const overscanForward =
-        !isScrolling || scrollDirection === 'forward'
-          ? Math.max(1, overscanCount)
-          : 1;
-
-      console.log(
-        '■■■■■■■_getRangeToRender',
-        Math.max(0, reStartIndex - overscanBackward),
-        Math.max(0, Math.min(itemCount - 1, reStopIndex + overscanForward)),
-        reStartIndex,
-        reStopIndex
-      );
-
-      return [
-        Math.max(0, reStartIndex - overscanBackward),
-        Math.max(0, Math.min(itemCount - 1, reStopIndex + overscanForward)),
-        reStartIndex,
-        reStopIndex,
-      ];
+        return [
+          Math.max(0, startIndex - overscanBackward),
+          Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
+          startIndex,
+          stopIndex,
+        ];
+      }
     }
 
     _renderItems() {

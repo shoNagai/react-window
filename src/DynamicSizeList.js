@@ -102,9 +102,6 @@ const findNearestItemBinarySearch = (
   low: number,
   offset: number
 ): number => {
-  console.log(`findNearestItemBinarySearch start`);
-  console.log(`high ${high} low ${low} offset ${offset}`);
-  let index = low;
   while (low <= high) {
     const middle = low + Math.floor((high - low) / 2);
     const currentOffset = getItemMetadata(props, middle, instanceProps).offset;
@@ -116,24 +113,13 @@ const findNearestItemBinarySearch = (
     } else if (currentOffset > offset) {
       high = middle - 1;
     }
-    // var currentOffset = getItemMetadata(props, low, instanceProps).offset;
-    // console.log(`currentOffset ${currentOffset}`);
-    // if (offset - currentOffset <= 0) {
-    //   index = low;
-    // }
-    // low++;
   }
-
-  console.log(`low ${low}`);
-  console.log('findNearestItemBinarySearch end');
 
   if (low > 0) {
     return low - 1;
   } else {
     return 0;
   }
-
-  // return index;
 };
 
 const getEstimatedTotalSize = (
@@ -225,14 +211,8 @@ const DynamicSizeList = createListComponent({
     offset: number,
     instanceProps: InstanceProps
   ): number => {
-    const { itemCount, isReverseScroll } = props;
     const { lastMeasuredIndex, totalMeasuredSize } = instanceProps;
 
-    console.log('getStartIndexForOffset start');
-    console.log(`offset ${offset} itemCount ${itemCount}`);
-    console.log(
-      `lastMeasuredIndex ${lastMeasuredIndex} totalMeasuredSize ${totalMeasuredSize}`
-    );
     // If we've already positioned and measured past this point,
     // Use a binary search to find the closets cell.
     if (offset <= totalMeasuredSize) {
@@ -240,15 +220,13 @@ const DynamicSizeList = createListComponent({
         props,
         instanceProps,
         lastMeasuredIndex,
-        isReverseScroll ? itemCount : 0,
+        0,
         offset
       );
     }
 
-    console.log('getStartIndexForOffset end');
     // Otherwise render a new batch of items starting from where we left off.
     return lastMeasuredIndex + 1;
-    // return 0;
   },
 
   getStopIndexForStartIndex: (
@@ -257,21 +235,8 @@ const DynamicSizeList = createListComponent({
     scrollOffset: number,
     instanceProps: InstanceProps
   ): number => {
-    const {
-      direction,
-      layout,
-      height,
-      itemCount,
-      width,
-      isReverseScroll,
-    } = props;
+    const { direction, layout, height, itemCount, width } = props;
 
-    console.log('getStopIndexForStartIndex start');
-    console.log(
-      `height ${height} startIndex ${startIndex} scrollOffset ${scrollOffset}`
-    );
-
-    // let stopIndex = startIndex;
     const size = (((direction === 'horizontal' || layout === 'horizontal'
       ? width
       : height): any): number);
@@ -280,34 +245,60 @@ const DynamicSizeList = createListComponent({
 
     let offset = itemMetadata.offset + itemMetadata.size;
     let stopIndex = startIndex;
-    // let closestOffsetIndex = 0;
-    // while (stopIndex > 0 && offset <= maxOffset) {
-    //   const itemMetadata = getItemMetadata(props, stopIndex, instanceProps);
-    //   offset = itemMetadata.offset + itemMetadata.size;
-    //   console.log(`offset ${offset} stopIndex ${stopIndex}`);
-    //   stopIndex--;
-    // }
-    console.log(
-      `isReverseScroll ${isReverseScroll} stopIndex ${stopIndex} itemCount ${itemCount} offset ${offset} maxOffset ${maxOffset}`
-    );
-    const conditionCount = isReverseScroll ? itemCount : itemCount - 1;
-    while (stopIndex < conditionCount && offset < maxOffset) {
-      if (isReverseScroll) {
-        stopIndex--;
-      } else {
-        stopIndex++;
-      }
+
+    while (stopIndex < itemCount - 1 && offset < maxOffset) {
+      stopIndex++;
       offset += getItemMetadata(props, stopIndex, instanceProps).size;
-      console.log(`stopIndex ${stopIndex} offset ${offset}`);
     }
 
-    console.log(`stopIndex ${stopIndex} offset ${offset}`);
+    return stopIndex;
+  },
 
-    // if (stopIndex >= itemCount) {
-    //   return closestOffsetIndex;
-    // }
+  getStartIndexForOffsetReverse: (
+    props: Props<any>,
+    offset: number,
+    instanceProps: InstanceProps
+  ): number => {
+    const { itemCount } = props;
+    const { lastMeasuredIndex, totalMeasuredSize } = instanceProps;
 
-    console.log('getStopIndexForStartIndex end');
+    // If we've already positioned and measured past this point,
+    // Use a binary search to find the closets cell.
+    if (offset <= totalMeasuredSize) {
+      return findNearestItemBinarySearch(
+        props,
+        instanceProps,
+        lastMeasuredIndex,
+        itemCount,
+        offset
+      );
+    }
+
+    // Otherwise render a new batch of items starting from where we left off.
+    return lastMeasuredIndex + 1;
+  },
+
+  getStopIndexForStartIndexReverse: (
+    props: Props<any>,
+    startIndex: number,
+    scrollOffset: number,
+    instanceProps: InstanceProps
+  ): number => {
+    const { direction, layout, height, itemCount, width } = props;
+
+    const size = (((direction === 'horizontal' || layout === 'horizontal'
+      ? width
+      : height): any): number);
+    const itemMetadata = getItemMetadata(props, startIndex, instanceProps);
+    const maxOffset = scrollOffset + size;
+
+    let offset = itemMetadata.offset + itemMetadata.size;
+    let stopIndex = startIndex;
+
+    while (stopIndex < itemCount && offset < maxOffset) {
+      stopIndex--;
+      offset += getItemMetadata(props, stopIndex, instanceProps).size;
+    }
 
     return stopIndex;
   },
