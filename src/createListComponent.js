@@ -485,9 +485,9 @@ export default function createListComponent({
 
       console.log(
         '■■■■■■■_getRangeToRender',
-        lastMeasuredIndex,
-        scrollOffset,
-        totalMeasuredSize
+        lastMeasuredIndex, // -1
+        scrollOffset, // 0
+        totalMeasuredSize // 0
       );
 
       if (itemCount === 0) {
