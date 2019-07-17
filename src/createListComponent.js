@@ -508,6 +508,7 @@ export default function createListComponent({
           scrollOffset,
           this._instanceProps
         );
+        console.log(`startIndex ${startIndex}`);
         const stopIndex = getStopIndexForStartIndexReverse(
           this.props,
           startIndex,

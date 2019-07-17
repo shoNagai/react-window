@@ -87,14 +87,6 @@ const getItemMetadata = (
   return { offset, size };
 };
 
-/**
- *
- * @param {*} props
- * @param {*} instanceProps
- * @param {*} high --> itemCount
- * @param {*} low
- * @param {*} scrollOffset
- */
 const findNearestItemBinarySearch = (
   props: Props<any>,
   instanceProps: InstanceProps,
@@ -105,6 +97,10 @@ const findNearestItemBinarySearch = (
   while (low <= high) {
     const middle = low + Math.floor((high - low) / 2);
     const currentOffset = getItemMetadata(props, middle, instanceProps).offset;
+
+    console.log(`findNearestItemBinarySearch`);
+    console.log(`high ${high} low ${low} offset ${offset}`);
+    console.log(`middle ${middle} currentOffset ${currentOffset}`);
 
     if (currentOffset === offset) {
       return middle;
