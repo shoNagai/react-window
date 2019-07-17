@@ -167,7 +167,7 @@ export default function createListComponent({
       layout: 'vertical',
       overscanCount: 2,
       useIsScrolling: false,
-      isReverseScroll: false,
+      isReverseScroll: true,
     };
 
     state: State = {
@@ -519,6 +519,9 @@ export default function createListComponent({
           this._instanceProps
         );
         console.log(`startIndex ${startIndex}`);
+
+        console.log(`scrollOffset ${scrollOffset}`);
+
         const stopIndex = getStopIndexForStartIndexReverse(
           this.props,
           startIndex,
