@@ -279,7 +279,7 @@ const DynamicSizeList = createListComponent({
     const maxOffset = scrollOffset + size;
 
     let offset = itemMetadata.offset + itemMetadata.size;
-    let stopIndex = isReverseScroll ? 0 : startIndex;
+    let stopIndex = startIndex;
     // let closestOffsetIndex = 0;
     // while (stopIndex > 0 && offset <= maxOffset) {
     //   const itemMetadata = getItemMetadata(props, stopIndex, instanceProps);
@@ -291,7 +291,8 @@ const DynamicSizeList = createListComponent({
       `isReverseScroll ${isReverseScroll} stopIndex ${stopIndex} itemCount ${itemCount} offset ${offset} maxOffset ${maxOffset}`
     );
 
-    while (stopIndex < itemCount - 1 && offset < maxOffset) {
+    // while (stopIndex < itemCount - 1 && offset < maxOffset) {
+    while (stopIndex < itemCount && offset < maxOffset) {
       if (isReverseScroll) {
         stopIndex--;
       } else {
