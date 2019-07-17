@@ -495,6 +495,7 @@ export default function createListComponent({
     _getRangeToRender(): [number, number, number, number] {
       const { itemCount, overscanCount, isReverseScroll } = this.props;
       const { isScrolling, scrollDirection, scrollOffset } = this.state;
+      const { totalMeasuredSize } = this._instanceProps;
 
       if (itemCount === 0) {
         return [0, 0, 0, 0];
@@ -520,7 +521,9 @@ export default function createListComponent({
         );
         console.log(`startIndex ${startIndex}`);
 
-        console.log(`scrollOffset ${scrollOffset}`);
+        console.log(
+          `scrollOffset ${scrollOffset} totalMeasuredSize ${totalMeasuredSize}`
+        );
 
         const stopIndex = getStopIndexForStartIndexReverse(
           this.props,
