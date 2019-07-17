@@ -87,6 +87,14 @@ const getItemMetadata = (
   return { offset, size };
 };
 
+/**
+ *
+ * @param {*} props
+ * @param {*} instanceProps
+ * @param {*} high --> itemCount
+ * @param {*} low
+ * @param {*} scrollOffset
+ */
 const findNearestItemBinarySearch = (
   props: Props<any>,
   instanceProps: InstanceProps,
@@ -94,17 +102,19 @@ const findNearestItemBinarySearch = (
   low: number,
   scrollOffset: number
 ): number => {
-  console.log('findNearestItemBinarySearch', high, low, scrollOffset);
+  console.log(`findNearestItemBinarySearch start`);
+  console.log(`high ${high} low ${low} scrollOffset ${scrollOffset}`);
   let index = low;
   while (low <= high) {
     var currentOffset = getItemMetadata(props, low, instanceProps).offset;
-    console.log('findNearestItemBinarySearch', currentOffset);
+    console.log(`currentOffset ${currentOffset}`);
     if (scrollOffset - currentOffset <= 0) {
       index = low;
     }
     low++;
   }
-  console.log('findNearestItemBinarySearch', index);
+  console.log(`index ${index}`);
+  console.log('findNearestItemBinarySearch end');
   return index;
 };
 
@@ -200,7 +210,10 @@ const DynamicSizeList = createListComponent({
     const { itemCount } = props;
     const { totalMeasuredSize } = instanceProps;
 
-    console.log('getStartIndexForOffset', offset, itemCount, totalMeasuredSize);
+    console.log('getStartIndexForOffset start');
+    console.log(
+      `offset ${offset} totalMeasuredSize ${totalMeasuredSize} itemCount ${itemCount}`
+    );
     // If we've already positioned and measured past this point,
     // Use a binary search to find the closets cell.
     if (offset <= totalMeasuredSize) {
@@ -213,6 +226,7 @@ const DynamicSizeList = createListComponent({
       );
     }
 
+    console.log('getStartIndexForOffset end');
     // Otherwise render a new batch of items starting from where we left off.
     return 0;
   },
@@ -225,6 +239,11 @@ const DynamicSizeList = createListComponent({
   ): number => {
     const { direction, layout, height, itemCount, width } = props;
 
+    console.log('getStopIndexForStartIndex start');
+    console.log(
+      `height ${height} startIndex ${startIndex} scrollOffset ${scrollOffset} itemCount ${itemCount}`
+    );
+
     let stopIndex = startIndex;
     const size = (((direction === 'horizontal' || layout === 'horizontal'
       ? width
@@ -232,17 +251,26 @@ const DynamicSizeList = createListComponent({
     const itemMetadata = getItemMetadata(props, stopIndex, instanceProps);
     const maxOffset = scrollOffset + size;
 
+    console.log(`stopIndex ${stopIndex} maxOffset ${maxOffset}`);
+
     let offset = itemMetadata.offset + itemMetadata.size;
     let closestOffsetIndex = 0;
     while (stopIndex > 0 && offset <= maxOffset) {
       const itemMetadata = getItemMetadata(props, stopIndex, instanceProps);
       offset = itemMetadata.offset + itemMetadata.size;
+      console.log(`offset ${offset} stopIndex ${stopIndex}`);
       stopIndex--;
     }
+
+    console.log(
+      `stopIndex ${stopIndex} closestOffsetIndex ${closestOffsetIndex}`
+    );
 
     if (stopIndex >= itemCount) {
       return closestOffsetIndex;
     }
+
+    console.log('getStopIndexForStartIndex end');
 
     return stopIndex;
   },

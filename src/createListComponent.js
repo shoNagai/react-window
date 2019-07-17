@@ -483,11 +483,12 @@ export default function createListComponent({
       const { isScrolling, scrollDirection, scrollOffset } = this.state;
       const { lastMeasuredIndex, totalMeasuredSize } = this._instanceProps;
 
+      console.log('_getRangeToRender start');
+
+      console.log(`itemCount ${itemCount} overscanCount ${overscanCount}`);
+      console.log(`scrollOffset ${scrollOffset}`);
       console.log(
-        '■■■■■■■_getRangeToRender',
-        lastMeasuredIndex, // -1
-        scrollOffset, // 0
-        totalMeasuredSize // 0
+        `lastMeasuredIndex ${lastMeasuredIndex} totalMeasuredSize ${totalMeasuredSize}`
       );
 
       if (itemCount === 0) {
@@ -502,12 +503,16 @@ export default function createListComponent({
         this._instanceProps
       );
 
+      console.log(`startIndex ${startIndex}`);
+
       const stopIndex = getStopIndexForStartIndex(
         this.props,
         startIndex,
         scrollOffset,
         this._instanceProps
       );
+
+      console.log(`stopIndex ${stopIndex}`);
 
       // Overscan by one item in each direction so that tab/focus works.
       // If there isn't at least one extra item, tab loops back around.
