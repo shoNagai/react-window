@@ -292,19 +292,14 @@ export default function createListComponent({
 
     // TODO: 要確認、無駄なレンダリング防止で入れたいが
     shouldComponentUpdate(nextProps, nextState) {
-      console.log(
-        '■■■■■■ shouldComponentUpdate',
-        this.state.scrollOffset,
-        nextState.scrollOffset
-      );
-      // if (this.state.scrollOffset !== nextState.scrollOffset) {
-      //   console.log(
-      //     'shouldComponentUpdate',
-      //     this.state.scrollOffset,
-      //     nextState.scrollOffset
-      //   );
-      //   return true;
-      // }
+      if (this.state.scrollOffset !== nextState.scrollOffset) {
+        console.log(
+          'shouldComponentUpdate',
+          this.state.scrollOffset,
+          nextState.scrollOffset
+        );
+        return true;
+      }
       return true;
     }
 
