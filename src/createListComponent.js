@@ -536,8 +536,8 @@ export default function createListComponent({
         );
 
         return [
-          Math.max(0, startIndex - overscanBackward),
-          Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
+          Math.max(0, stopIndex - overscanBackward),
+          Math.max(0, Math.min(itemCount - 1, startIndex + overscanForward)),
           startIndex,
           stopIndex,
         ];

@@ -98,7 +98,7 @@ const findNearestItemBinarySearch = (
     const middle = low + Math.floor((high - low) / 2);
     const currentOffset = getItemMetadata(props, middle, instanceProps).offset;
 
-    console.log(`findNearestItemBinarySearch`);
+    console.log(`findNearestItemBinarySearch start`);
     console.log(`high ${high} low ${low} offset ${offset}`);
     console.log(`middle ${middle} currentOffset ${currentOffset}`);
 
@@ -110,6 +110,9 @@ const findNearestItemBinarySearch = (
       high = middle - 1;
     }
   }
+
+  console.log(`low ${low}`);
+  console.log(`findNearestItemBinarySearch end`);
 
   if (low > 0) {
     return low - 1;
