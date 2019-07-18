@@ -58,7 +58,8 @@ export type Props<T> = {|
   outerRef?: any,
   outerElementType?: React$ElementType,
   outerTagName?: string, // deprecated
-  overscanCount: number,
+  overscanCountForward: number,
+  overscanCountBackward: number,
   style?: Object,
   useIsScrolling: boolean,
   width: number | string,
@@ -149,7 +150,8 @@ export default function createListComponent({
       direction: 'ltr',
       itemData: undefined,
       layout: 'vertical',
-      overscanCount: 2,
+      overscanCountForward: 2,
+      overscanCountBackward: 2,
       useIsScrolling: false,
     };
 
@@ -464,7 +466,11 @@ export default function createListComponent({
     });
 
     _getRangeToRender(): [number, number, number, number] {
-      const { itemCount, overscanCount } = this.props;
+      const {
+        itemCount,
+        overscanCountForward,
+        overscanCountBackward,
+      } = this.props;
       const { isScrolling, scrollDirection, scrollOffset } = this.state;
 
       if (itemCount === 0) {
@@ -488,12 +494,12 @@ export default function createListComponent({
       // If there isn't at least one extra item, tab loops back around.
       const overscanBackward =
         !isScrolling || scrollDirection === 'backward'
-          ? Math.max(1, overscanCount)
-          : 1;
+          ? overscanCountBackward
+          : Math.max(1, overscanCountForward);
       const overscanForward =
         !isScrolling || scrollDirection === 'forward'
-          ? Math.max(1, overscanCount)
-          : 1;
+          ? overscanCountBackward
+          : Math.max(1, overscanCountForward);
 
       const calcStartIndex = Math.max(0, startIndex - overscanBackward);
       const calcStopIndex = Math.max(
