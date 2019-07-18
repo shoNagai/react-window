@@ -279,13 +279,13 @@ const DynamicSizeList = createListComponent({
   },
 
   initInstanceProps(props: Props<any>, instance: any): InstanceProps {
-    const { estimatedItemSize } = ((props: any): DynanmicProps);
+    const { estimatedItemSize, useKeepStorage } = ((props: any): DynanmicProps);
 
     const instanceProps = {
       estimatedItemSize: estimatedItemSize || DEFAULT_ESTIMATED_ITEM_SIZE,
       instance,
-      itemOffsetMap: {},
-      itemSizeMap: {},
+      itemOffsetMap: useKeepStorage ? 1 : {},
+      itemSizeMap: useKeepStorage ? 1 : {},
       lastMeasuredIndex: -1,
       lastPositionedIndex: -1,
       totalMeasuredSize: 0,
@@ -314,7 +314,6 @@ const DynamicSizeList = createListComponent({
 
     // This method is called after mount and update.
     instance._commitHook = () => {
-      console.log('_commitHook itemOffsetMap', itemOffsetMap);
       // if (hasNewMeasurements) {
       //   hasNewMeasurements = false;
       // Edge case where cell sizes changed, but cancelled each other out.
