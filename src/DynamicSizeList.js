@@ -114,8 +114,6 @@ const findNearestItemBinarySearch = (
   console.log(
     `high ${high} low ${low} offset ${scrollOffset} itemCount ${itemCount}`
   );
-  console.log(`itemOffsetMap ${Object.keys(itemOffsetMap).length}`);
-  console.log(`itemSizeMap ${Object.keys(itemSizeMap).length}`);
 
   while (low <= high) {
     const middle = low + Math.floor((high - low) / 2);
@@ -499,6 +497,9 @@ const DynamicSizeList = createListComponent({
     // set scrollTop, reset scrolling condition
     const correctScroll = () => {
       const { scrollOffset } = instance.state;
+      const { totalMeasuredSize } = instanceProps;
+
+      console.log('correctScroll', scrollOffset, totalMeasuredSize);
       const element = ((instance._outerRef: any): HTMLDivElement);
       if (element) {
         element.scrollTop = scrollOffset;
