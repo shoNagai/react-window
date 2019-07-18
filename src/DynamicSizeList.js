@@ -525,8 +525,8 @@ const DynamicSizeList = createListComponent({
 
       const items = [];
       if (itemCount > 0) {
-        // for (let index = startIndex; index <= stopIndex; index++) {
-        for (let index = itemCount - 1; index >= 0; index--) {
+        for (let index = startIndex; index <= stopIndex; index++) {
+          // for (let index = itemCount - 1; index >= 0; index--) {
           const { size } = getItemMetadata(
             instance.props,
             index,
@@ -536,27 +536,27 @@ const DynamicSizeList = createListComponent({
           // It's important to read style after fetching item metadata.
           // getItemMetadata() will clear stale styles.
           const style = instance._getItemStyle(index);
-          if (index >= startIndex && index < stopIndex + 1) {
-            const item = createElement(children, {
-              data: itemData,
-              index,
-              isScrolling: useIsScrolling ? isScrolling : undefined,
-              style,
-            });
+          // if (index >= startIndex && index < stopIndex + 1) {
+          const item = createElement(children, {
+            data: itemData,
+            index,
+            isScrolling: useIsScrolling ? isScrolling : undefined,
+            style,
+          });
 
-            // Always wrap children in a ItemMeasurer to detect changes in size.
-            items.push(
-              createElement(ItemMeasurer, {
-                direction,
-                layout,
-                handleNewMeasurements,
-                index,
-                item,
-                key: itemKey(index, itemData),
-                size,
-              })
-            );
-          }
+          // Always wrap children in a ItemMeasurer to detect changes in size.
+          items.push(
+            createElement(ItemMeasurer, {
+              direction,
+              layout,
+              handleNewMeasurements,
+              index,
+              item,
+              key: itemKey(index, itemData),
+              size,
+            })
+          );
+          // }
         }
       }
       return items;
