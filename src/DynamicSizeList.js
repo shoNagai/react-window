@@ -279,7 +279,11 @@ const DynamicSizeList = createListComponent({
   },
 
   initInstanceProps(props: Props<any>, instance: any): InstanceProps {
-    const { estimatedItemSize, useKeepStorage } = ((props: any): DynanmicProps);
+    const {
+      estimatedItemSize,
+      useKeepStorage,
+      listKey,
+    } = ((props: any): DynanmicProps);
 
     const instanceProps = {
       estimatedItemSize: estimatedItemSize || DEFAULT_ESTIMATED_ITEM_SIZE,
