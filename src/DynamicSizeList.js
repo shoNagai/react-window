@@ -63,6 +63,7 @@ const getItemMetadata = (
     (itemOffsetMap[index] && itemSizeMap[index]) ||
     index > lastPositionedIndex
   ) {
+    console.log('update offset');
     if (lastPositionedIndex < 0) {
       itemOffsetMap[0] = 0;
     }
@@ -521,11 +522,15 @@ const DynamicSizeList = createListComponent({
         itemKey = defaultItemKey,
         useIsScrolling,
       } = instance.props;
+      const { itemSizeMap, itemOffsetMap, totalMeasuredSize } = instanceProps;
       const { isScrolling } = instance.state;
 
       const [startIndex, stopIndex] = instance._getRangeToRender();
 
       console.log('_renderItems _getRangeToRender', startIndex, stopIndex);
+      console.log(itemSizeMap, itemOffsetMap, totalMeasuredSize);
+
+      // _renderItems _getRangeToRender 17 128
 
       const items = [];
       if (itemCount > 0) {
