@@ -302,19 +302,6 @@ const DynamicSizeList = createListComponent({
       totalMeasuredSize: 0,
     };
 
-    console.log(
-      'instanceProps.itemOffsetMap',
-      useKeepStorage,
-      listKey,
-      instanceProps.itemOffsetMap
-    );
-    console.log(
-      'instanceProps.itemSizeMap',
-      useKeepStorage,
-      listKey,
-      instanceProps.itemSizeMap
-    );
-
     let debounceForceUpdateID = null;
     const debounceForceUpdate = () => {
       if (debounceForceUpdateID === null) {
@@ -512,7 +499,6 @@ const DynamicSizeList = createListComponent({
       const { scrollOffset } = instance.state;
       const element = ((instance._outerRef: any): HTMLDivElement);
       if (element) {
-        console.log('correctScroll', scrollOffset);
         element.scrollTop = scrollOffset;
         correctedInstances = 0;
         mountingCorrections = 0;

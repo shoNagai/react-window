@@ -301,7 +301,7 @@ export default function createListComponent({
 
       const items = this._renderItems();
 
-      console.log('render itemsSize', items.length);
+      console.log('render itemsSize', items);
 
       // Read this value AFTER items have been created,
       // So their actual sizes (if variable) are taken into consideration.
@@ -510,9 +510,6 @@ export default function createListComponent({
         0,
         Math.min(itemCount - 1, stopIndex + overscanForward)
       );
-
-      console.log(`reStartIndex ${reStartIndex}, reStopIndex ${reStopIndex}`);
-      console.log(`startIndex ${startIndex}, stopIndex ${stopIndex}`);
 
       return [reStartIndex, reStopIndex, startIndex, stopIndex];
     }
