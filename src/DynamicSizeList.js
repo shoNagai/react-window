@@ -74,6 +74,14 @@ const getItemMetadata = (
 
       itemOffsetMap[i] = prevOffset + prevSize;
 
+      // TODO: if useKeepStorage is true
+      // save storage -> localStorage.setItem(listKey, JSON.stringify(itemOffsetMap));
+      // use listKey on instance.props
+      console.log(
+        `set itemOffsetMap to index ${i} newSize ${prevOffset + prevSize}`,
+        JSON.stringify(itemOffsetMap)
+      );
+
       // Reset cached style to clear stale position.
       delete instance._itemStyleCache[i];
     }
@@ -306,6 +314,7 @@ const DynamicSizeList = createListComponent({
 
     // This method is called after mount and update.
     instance._commitHook = () => {
+      console.log('_commitHook itemOffsetMap', itemOffsetMap);
       // if (hasNewMeasurements) {
       //   hasNewMeasurements = false;
       // Edge case where cell sizes changed, but cancelled each other out.
@@ -429,6 +438,9 @@ const DynamicSizeList = createListComponent({
 
       itemSizeMap[index] = newSize;
 
+      // TODO: if useKeepStorage is true
+      // save storage -> localStorage.setItem(listKey, JSON.stringify(itemSizeMap));
+      // use listKey on instance.props
       console.log(
         `set itemSizeMap to index ${index} newSize ${newSize}`,
         JSON.stringify(itemSizeMap)
