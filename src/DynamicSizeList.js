@@ -101,6 +101,7 @@ const findNearestItemBinarySearch = (
   low: number,
   scrollOffset: number
 ): number => {
+  const { itemCount } = props;
   const {
     estimatedItemSize,
     instance,
@@ -110,7 +111,11 @@ const findNearestItemBinarySearch = (
     lastPositionedIndex,
   } = instanceProps;
   console.log(`findNearestItemBinarySearch start`);
-  console.log(`high ${high} low ${low} offset ${scrollOffset}`);
+  console.log(
+    `high ${high} low ${low} offset ${scrollOffset} itemCount ${itemCount}`
+  );
+  console.log(`itemOffsetMap ${Object.keys(itemOffsetMap).length}`);
+  console.log(`itemSizeMap ${Object.keys(itemSizeMap).length}`);
 
   while (low <= high) {
     const middle = low + Math.floor((high - low) / 2);
