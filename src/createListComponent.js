@@ -501,16 +501,16 @@ export default function createListComponent({
           ? overscanCountBackward
           : Math.max(1, overscanCountForward);
 
-      const calcStartIndex = Math.max(0, startIndex - overscanBackward);
-      const calcStopIndex = Math.max(
+      const reStartIndex = Math.max(0, startIndex - overscanBackward);
+      const reStopIndex = Math.max(
         0,
         Math.min(itemCount - 1, stopIndex + overscanForward)
       );
 
-      console.log(
-        `calcStartIndex ${calcStartIndex}, calcStopIndex ${calcStopIndex}, startIndex ${startIndex}, stopIndex ${stopIndex}`
-      );
-      return [calcStartIndex, calcStopIndex, startIndex, stopIndex];
+      console.log(`reStartIndex ${reStartIndex}, reStopIndex ${reStopIndex}`);
+      console.log(`startIndex ${startIndex}, stopIndex ${stopIndex}`);
+
+      return [reStartIndex, reStopIndex, startIndex, stopIndex];
     }
 
     _renderItems() {
