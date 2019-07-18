@@ -260,32 +260,18 @@ const DynamicSizeList = createListComponent({
   ): number => {
     const { direction, layout, height, itemCount, width } = props;
 
-    // const size = (((direction === 'horizontal' || layout === 'horizontal'
-    //   ? width
-    //   : height): any): number);
-    // const itemMetadata = getItemMetadata(props, startIndex, instanceProps);
-    // const maxOffset = scrollOffset + size;
+    const size = (((direction === 'horizontal' || layout === 'horizontal'
+      ? width
+      : height): any): number);
+    const itemMetadata = getItemMetadata(props, startIndex, instanceProps);
+    const maxOffset = scrollOffset + size;
 
-    // let offset = itemMetadata.offset + itemMetadata.size;
-    // let stopIndex = startIndex;
-
-    // while (stopIndex < itemCount - 1 && offset < maxOffset) {
-    //   stopIndex++;
-    //   offset += getItemMetadata(props, stopIndex, instanceProps).size;
-    // }
+    let offset = itemMetadata.offset + itemMetadata.size;
     let stopIndex = startIndex;
-    const maxOffset = scrollOffset + props.height;
-    const itemMetadata = getItemMetadata(props, stopIndex, instanceProps);
-    let offset = itemMetadata.offset + (itemMetadata.size || 0);
-    let closestOffsetIndex = 0;
-    while (stopIndex > 0 && offset <= maxOffset) {
-      const itemMetadata = getItemMetadata(props, stopIndex, instanceProps);
-      offset = itemMetadata.offset + itemMetadata.size;
-      stopIndex--;
-    }
 
-    if (stopIndex >= itemCount) {
-      return closestOffsetIndex;
+    while (stopIndex < itemCount - 1 && offset < maxOffset) {
+      stopIndex++;
+      offset += getItemMetadata(props, stopIndex, instanceProps).size;
     }
 
     return stopIndex;
@@ -539,8 +525,8 @@ const DynamicSizeList = createListComponent({
 
       const items = [];
       if (itemCount > 0) {
-        // for (let index = startIndex; index <= stopIndex; index++) {
-        for (let index = itemCount - 1; index >= 0; index--) {
+        for (let index = startIndex; index <= stopIndex; index++) {
+          // for (let index = itemCount - 1; index >= 0; index--) {
           const { size } = getItemMetadata(
             instance.props,
             index,
@@ -550,27 +536,27 @@ const DynamicSizeList = createListComponent({
           // It's important to read style after fetching item metadata.
           // getItemMetadata() will clear stale styles.
           const style = instance._getItemStyle(index);
-          if (index >= startIndex && index < stopIndex + 1) {
-            const item = createElement(children, {
-              data: itemData,
-              index,
-              isScrolling: useIsScrolling ? isScrolling : undefined,
-              style,
-            });
+          // if (index >= startIndex && index < stopIndex + 1) {
+          const item = createElement(children, {
+            data: itemData,
+            index,
+            isScrolling: useIsScrolling ? isScrolling : undefined,
+            style,
+          });
 
-            // Always wrap children in a ItemMeasurer to detect changes in size.
-            items.push(
-              createElement(ItemMeasurer, {
-                direction,
-                layout,
-                handleNewMeasurements,
-                index,
-                item,
-                key: itemKey(index, itemData),
-                size,
-              })
-            );
-          }
+          // Always wrap children in a ItemMeasurer to detect changes in size.
+          items.push(
+            createElement(ItemMeasurer, {
+              direction,
+              layout,
+              handleNewMeasurements,
+              index,
+              item,
+              key: itemKey(index, itemData),
+              size,
+            })
+          );
+          // }
         }
       }
       return items;
