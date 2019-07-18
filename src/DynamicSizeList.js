@@ -111,6 +111,7 @@ const findNearestItemBinarySearch = (
     lastPositionedIndex,
   } = instanceProps;
   console.log(`findNearestItemBinarySearch start`);
+  console.log(`estimatedItemSize ${estimatedItemSize}`);
   console.log(
     `high ${high} low ${low} offset ${scrollOffset} itemCount ${itemCount}`
   );
