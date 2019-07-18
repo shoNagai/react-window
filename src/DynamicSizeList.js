@@ -239,7 +239,7 @@ const DynamicSizeList = createListComponent({
       return findNearestItemBinarySearch(
         props,
         instanceProps,
-        lastMeasuredIndex,
+        itemCount - 1,
         0,
         scrollOffset
       );
