@@ -414,6 +414,7 @@ const DynamicSizeList = createListComponent({
         lastMeasuredIndex,
         lastPositionedIndex,
       } = instanceProps;
+      const { useKeepStorage, listKey } = instance.props;
 
       // In some browsers (e.g. Firefox) fast scrolling may skip rows.
       // In this case, our assumptions about last measured indices may be incorrect.
@@ -454,7 +455,9 @@ const DynamicSizeList = createListComponent({
       // use listKey on instance.props
       console.log(
         `set itemSizeMap to index ${index} newSize ${newSize}`,
-        JSON.stringify(itemSizeMap)
+        JSON.stringify(itemSizeMap),
+        useKeepStorage,
+        listKey
       );
 
       // Even though the size has changed, we don't need to reset the cached style,

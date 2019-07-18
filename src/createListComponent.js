@@ -155,7 +155,7 @@ export default function createListComponent({
       overscanCountForward: 2,
       overscanCountBackward: 2,
       useIsScrolling: false,
-      useKeepStorage: true,
+      useKeepStorage: false,
       listKey: '1',
     };
 
