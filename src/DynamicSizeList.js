@@ -260,18 +260,32 @@ const DynamicSizeList = createListComponent({
   ): number => {
     const { direction, layout, height, itemCount, width } = props;
 
-    const size = (((direction === 'horizontal' || layout === 'horizontal'
-      ? width
-      : height): any): number);
-    const itemMetadata = getItemMetadata(props, startIndex, instanceProps);
-    const maxOffset = scrollOffset + size;
+    // const size = (((direction === 'horizontal' || layout === 'horizontal'
+    //   ? width
+    //   : height): any): number);
+    // const itemMetadata = getItemMetadata(props, startIndex, instanceProps);
+    // const maxOffset = scrollOffset + size;
 
-    let offset = itemMetadata.offset + itemMetadata.size;
+    // let offset = itemMetadata.offset + itemMetadata.size;
+    // let stopIndex = startIndex;
+
+    // while (stopIndex < itemCount - 1 && offset < maxOffset) {
+    //   stopIndex++;
+    //   offset += getItemMetadata(props, stopIndex, instanceProps).size;
+    // }
     let stopIndex = startIndex;
+    const maxOffset = scrollOffset + props.height;
+    const itemMetadata = getItemMetadata(props, stopIndex, instanceProps);
+    let offset = itemMetadata.offset + (itemMetadata.size || 0);
+    let closestOffsetIndex = 0;
+    while (stopIndex > 0 && offset <= maxOffset) {
+      const itemMetadata = getItemMetadata(props, stopIndex, instanceProps);
+      offset = itemMetadata.offset + itemMetadata.size;
+      stopIndex--;
+    }
 
-    while (stopIndex < itemCount - 1 && offset < maxOffset) {
-      stopIndex++;
-      offset += getItemMetadata(props, stopIndex, instanceProps).size;
+    if (stopIndex >= itemCount) {
+      return closestOffsetIndex;
     }
 
     return stopIndex;
