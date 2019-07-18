@@ -156,6 +156,7 @@ export default function createListComponent({
       overscanCountBackward: 2,
       useIsScrolling: false,
       useKeepStorage: true,
+      listKey: '1',
     };
 
     state: State = {
