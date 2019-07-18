@@ -59,7 +59,10 @@ const getItemMetadata = (
   }
 
   // Lazily update positions if they are stale.
-  if (index > lastPositionedIndex) {
+  if (
+    (itemOffsetMap[index] && itemSizeMap[index]) ||
+    index > lastPositionedIndex
+  ) {
     if (lastPositionedIndex < 0) {
       itemOffsetMap[0] = 0;
     }
