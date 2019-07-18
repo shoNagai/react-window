@@ -284,8 +284,16 @@ const DynamicSizeList = createListComponent({
     const instanceProps = {
       estimatedItemSize: estimatedItemSize || DEFAULT_ESTIMATED_ITEM_SIZE,
       instance,
-      itemOffsetMap: useKeepStorage ? 1 : {},
-      itemSizeMap: useKeepStorage ? 1 : {},
+      itemOffsetMap: useKeepStorage
+        ? localStorage.getItem(`itemOffsetMap/${itemSizeMap}`)
+          ? JSON.parse(localStorage.getItem(`itemOffsetMap/${itemSizeMap}`))
+          : {}
+        : {},
+      itemSizeMap: useKeepStorage
+        ? localStorage.getItem(`itemSizeMap/${listKey}`)
+          ? JSON.parse(localStorage.getItem(`itemSizeMap/${listKey}`))
+          : {}
+        : {},
       lastMeasuredIndex: -1,
       lastPositionedIndex: -1,
       totalMeasuredSize: 0,
