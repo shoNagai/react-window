@@ -430,7 +430,8 @@ const DynamicSizeList = createListComponent({
       itemSizeMap[index] = newSize;
 
       console.log(
-        `set itemSizeMap to index ${index} newSize ${newSize} itemSizeMap.size ${itemSizeMap.size}`
+        `set itemSizeMap to index ${index} newSize ${newSize}`,
+        JSON.stringify(itemSizeMap)
       );
 
       // Even though the size has changed, we don't need to reset the cached style,
