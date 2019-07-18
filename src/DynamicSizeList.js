@@ -533,6 +533,7 @@ const DynamicSizeList = createListComponent({
           // It's important to read style after fetching item metadata.
           // getItemMetadata() will clear stale styles.
           const style = instance._getItemStyle(index);
+          console.log(`size ${size} style`, style);
           // if (index >= startIndex && index < stopIndex + 1) {
           const item = createElement(children, {
             data: itemData,
