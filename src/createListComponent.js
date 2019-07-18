@@ -62,7 +62,6 @@ export type Props<T> = {|
   style?: Object,
   useIsScrolling: boolean,
   width: number | string,
-  isReverseScroll: boolean,
 |};
 
 type State = {|
@@ -102,17 +101,6 @@ type GetStopIndexForStartIndex = (
   scrollOffset: number,
   instanceProps: any
 ) => number;
-type GetStartIndexForOffsetReverse = (
-  props: Props<any>,
-  offset: number,
-  instanceProps: any
-) => number;
-type GetStopIndexForStartIndexReverse = (
-  props: Props<any>,
-  startIndex: number,
-  scrollOffset: number,
-  instanceProps: any
-) => number;
 type InitInstanceProps = (props: Props<any>, instance: any) => any;
 type ValidateProps = (props: Props<any>) => void;
 
@@ -138,8 +126,6 @@ export default function createListComponent({
   getOffsetForIndexAndAlignment,
   getStartIndexForOffset,
   getStopIndexForStartIndex,
-  getStartIndexForOffsetReverse,
-  getStopIndexForStartIndexReverse,
   initInstanceProps,
   shouldResetStyleCacheOnItemSizeChange,
   validateProps,
@@ -150,8 +136,6 @@ export default function createListComponent({
   getOffsetForIndexAndAlignment: GetOffsetForIndexAndAlignment,
   getStartIndexForOffset: GetStartIndexForOffset,
   getStopIndexForStartIndex: GetStopIndexForStartIndex,
-  getStartIndexForOffsetReverse: etStartIndexForOffsetReverse,
-  getStopIndexForStartIndexReverse: GetStopIndexForStartIndexReverse,
   initInstanceProps: InitInstanceProps,
   shouldResetStyleCacheOnItemSizeChange: boolean,
   validateProps: ValidateProps,
@@ -167,7 +151,6 @@ export default function createListComponent({
       layout: 'vertical',
       overscanCount: 2,
       useIsScrolling: false,
-      isReverseScroll: false, // TODO 翔
     };
 
     state: State = {
@@ -481,13 +464,25 @@ export default function createListComponent({
     });
 
     _getRangeToRender(): [number, number, number, number] {
-      const { itemCount, overscanCount, isReverseScroll } = this.props;
+      const { itemCount, overscanCount } = this.props;
       const { isScrolling, scrollDirection, scrollOffset } = this.state;
-      const { totalMeasuredSize } = this._instanceProps;
 
       if (itemCount === 0) {
         return [0, 0, 0, 0];
       }
+
+      // nomal direction
+      const startIndex = getStartIndexForOffset(
+        this.props,
+        scrollOffset,
+        this._instanceProps
+      );
+      const stopIndex = getStopIndexForStartIndex(
+        this.props,
+        startIndex,
+        scrollOffset,
+        this._instanceProps
+      );
 
       // Overscan by one item in each direction so that tab/focus works.
       // If there isn't at least one extra item, tab loops back around.
@@ -500,56 +495,16 @@ export default function createListComponent({
           ? Math.max(1, overscanCount)
           : 1;
 
-      if (isReverseScroll) {
-        // reverse direction
-        const startIndex = getStartIndexForOffsetReverse(
-          this.props,
-          scrollOffset,
-          this._instanceProps
-        );
-        const stopIndex = getStopIndexForStartIndexReverse(
-          this.props,
-          startIndex,
-          scrollOffset,
-          this._instanceProps
-        );
+      const calcStartIndex = Math.max(0, startIndex - overscanBackward);
+      const calcStopIndex = Math.max(
+        0,
+        Math.min(itemCount - 1, stopIndex + overscanForward)
+      );
 
-        const calcStartIndex = Math.max(0, stopIndex - overscanBackward);
-        const calcStopIndex = Math.max(
-          0,
-          Math.min(itemCount - 1, startIndex + overscanForward)
-        );
-
-        console.log(
-          `calcStartIndex ${calcStartIndex}, calcStopIndex ${calcStopIndex}, startIndex ${startIndex}, stopIndex ${stopIndex}`
-        );
-
-        return [calcStartIndex, calcStopIndex, stopIndex, startIndex];
-      } else {
-        // nomal direction
-        const startIndex = getStartIndexForOffset(
-          this.props,
-          scrollOffset,
-          this._instanceProps
-        );
-        const stopIndex = getStopIndexForStartIndex(
-          this.props,
-          startIndex,
-          scrollOffset,
-          this._instanceProps
-        );
-
-        const calcStartIndex = Math.max(0, startIndex - overscanBackward);
-        const calcStopIndex = Math.max(
-          0,
-          Math.min(itemCount - 1, stopIndex + overscanForward)
-        );
-
-        console.log(
-          `calcStartIndex ${calcStartIndex}, calcStopIndex ${calcStopIndex}, startIndex ${startIndex}, stopIndex ${stopIndex}`
-        );
-        return [calcStartIndex, calcStopIndex, startIndex, stopIndex];
-      }
+      console.log(
+        `calcStartIndex ${calcStartIndex}, calcStopIndex ${calcStopIndex}, startIndex ${startIndex}, stopIndex ${stopIndex}`
+      );
+      return [calcStartIndex, calcStopIndex, startIndex, stopIndex];
     }
 
     _renderItems() {
