@@ -301,91 +301,86 @@ const DynamicSizeList = createListComponent({
       }
     };
 
-    let hasNewMeasurements: boolean = false;
-    let sizeDeltaTotal = 0;
+    // let hasNewMeasurements: boolean = false;
+    // let sizeDeltaTotal = 0;
 
     // This method is called after mount and update.
     instance._commitHook = () => {
-      if (hasNewMeasurements) {
-        hasNewMeasurements = false;
-
-        // Edge case where cell sizes changed, but cancelled each other out.
-        // We still need to re-render in this case,
-        // Even though we don't need to adjust scroll offset.
-        if (sizeDeltaTotal === 0) {
-          instance.forceUpdate();
-          return;
-        }
-
-        let shouldForceUpdate;
-
-        // In the setState commit hook, we'll decrement sizeDeltaTotal.
-        // In case the state update is processed synchronously,
-        // And triggers additional size updates itself,
-        // We should only drecement by the amount we updated state for originally.
-        const sizeDeltaForStateUpdate = sizeDeltaTotal;
-
-        // If the user is scrolling up, we need to adjust the scroll offset,
-        // To prevent items from "jumping" as items before them have been resized.
-        instance.setState(
-          prevState => {
-            if (
-              prevState.scrollDirection === 'backward' &&
-              !prevState.scrollUpdateWasRequested
-            ) {
-              // TRICKY
-              // If item(s) have changed size since they were last displayed, content will appear to jump.
-              // To avoid this, we need to make small adjustments as a user scrolls to preserve apparent position.
-              // This also ensures that the first item eventually aligns with scroll offset 0.
-              return {
-                scrollOffset: prevState.scrollOffset + sizeDeltaForStateUpdate,
-              };
-            } else {
-              // There's no state to update,
-              // But we still want to re-render in this case.
-              shouldForceUpdate = true;
-
-              return null;
-            }
-          },
-          () => {
-            if (shouldForceUpdate) {
-              instance.forceUpdate();
-            } else {
-              const { scrollOffset } = instance.state;
-              const { direction, layout } = instance.props;
-
-              // Adjusting scroll offset directly interrupts smooth scrolling for some browsers (e.g. Firefox).
-              // The relative scrollBy() method doesn't interrupt (or at least it won't as of Firefox v65).
-              // Other browsers (e.g. Chrome, Safari) seem to handle both adjustments equally well.
-              // See https://bugzilla.mozilla.org/show_bug.cgi?id=1502059
-              const element = ((instance._outerRef: any): HTMLDivElement);
-              // $FlowFixMe Property scrollBy is missing in HTMLDivElement
-              if (typeof element.scrollBy === 'function') {
-                element.scrollBy(
-                  direction === 'horizontal' || layout === 'horizontal'
-                    ? sizeDeltaForStateUpdate
-                    : 0,
-                  direction === 'horizontal' || layout === 'horizontal'
-                    ? 0
-                    : sizeDeltaForStateUpdate
-                );
-              } else if (
-                direction === 'horizontal' ||
-                layout === 'horizontal'
-              ) {
-                element.scrollLeft = scrollOffset;
-              } else {
-                element.scrollTop = scrollOffset;
-              }
-            }
-
-            sizeDeltaTotal -= sizeDeltaForStateUpdate;
-          }
-        );
-      }
+      // if (hasNewMeasurements) {
+      //   hasNewMeasurements = false;
+      // Edge case where cell sizes changed, but cancelled each other out.
+      // We still need to re-render in this case,
+      // Even though we don't need to adjust scroll offset.
+      // if (sizeDeltaTotal === 0) {
+      //   instance.forceUpdate();
+      //   return;
+      // }
+      // let shouldForceUpdate;
+      // In the setState commit hook, we'll decrement sizeDeltaTotal.
+      // In case the state update is processed synchronously,
+      // And triggers additional size updates itself,
+      // We should only drecement by the amount we updated state for originally.
+      // const sizeDeltaForStateUpdate = sizeDeltaTotal;
+      // If the user is scrolling up, we need to adjust the scroll offset,
+      // To prevent items from "jumping" as items before them have been resized.
+      // instance.setState(
+      //   prevState => {
+      //     if (
+      //       prevState.scrollDirection === 'backward' &&
+      //       !prevState.scrollUpdateWasRequested
+      //     ) {
+      //       // TRICKY
+      //       // If item(s) have changed size since they were last displayed, content will appear to jump.
+      //       // To avoid this, we need to make small adjustments as a user scrolls to preserve apparent position.
+      //       // This also ensures that the first item eventually aligns with scroll offset 0.
+      //       return {
+      //         scrollOffset: prevState.scrollOffset + sizeDeltaForStateUpdate,
+      //       };
+      //     } else {
+      //       // There's no state to update,
+      //       // But we still want to re-render in this case.
+      //       shouldForceUpdate = true;
+      //       return null;
+      //     }
+      //   },
+      //   () => {
+      //     if (shouldForceUpdate) {
+      //       instance.forceUpdate();
+      //     } else {
+      //       const { scrollOffset } = instance.state;
+      //       const { direction, layout } = instance.props;
+      //       // Adjusting scroll offset directly interrupts smooth scrolling for some browsers (e.g. Firefox).
+      //       // The relative scrollBy() method doesn't interrupt (or at least it won't as of Firefox v65).
+      //       // Other browsers (e.g. Chrome, Safari) seem to handle both adjustments equally well.
+      //       // See https://bugzilla.mozilla.org/show_bug.cgi?id=1502059
+      //       const element = ((instance._outerRef: any): HTMLDivElement);
+      //       // $FlowFixMe Property scrollBy is missing in HTMLDivElement
+      //       if (typeof element.scrollBy === 'function') {
+      //         element.scrollBy(
+      //           direction === 'horizontal' || layout === 'horizontal'
+      //             ? sizeDeltaForStateUpdate
+      //             : 0,
+      //           direction === 'horizontal' || layout === 'horizontal'
+      //             ? 0
+      //             : sizeDeltaForStateUpdate
+      //         );
+      //       } else if (
+      //         direction === 'horizontal' ||
+      //         layout === 'horizontal'
+      //       ) {
+      //         element.scrollLeft = scrollOffset;
+      //       } else {
+      //         element.scrollTop = scrollOffset;
+      //       }
+      //     }
+      //     sizeDeltaTotal -= sizeDeltaForStateUpdate;
+      //   }
+      // );
+      // }
     };
 
+    let mountingCorrections = 0;
+    let correctedInstances = 0;
     // This function may be called out of order!
     // It is not safe to reposition items here.
     // Be careful when comparing index and lastMeasuredIndex.
@@ -424,9 +419,9 @@ const DynamicSizeList = createListComponent({
         // To prevent items from "jumping" as items before them are resized.
         // We only do this for items that are newly measured (after mounting).
         // Ones that change size later do not need to affect scroll offset.
-        if (isFirstMeasureAfterMounting) {
-          sizeDeltaTotal += newSize - oldSize;
-        }
+        // if (isFirstMeasureAfterMounting) {
+        //   sizeDeltaTotal += newSize - oldSize;
+        // }
       } else {
         instanceProps.lastMeasuredIndex = index;
         instanceProps.totalMeasuredSize += newSize;
@@ -439,13 +434,50 @@ const DynamicSizeList = createListComponent({
       // This enables them to resize when their content (or container size) changes.
       // It also lets us avoid an unnecessary render in this case.
 
-      if (isFirstMeasureAfterMounting) {
-        hasNewMeasurements = true;
-      } else {
-        debounceForceUpdate();
-      }
+      // if (isFirstMeasureAfterMounting) {
+      //   hasNewMeasurements = true;
+      // } else {
+      //   debounceForceUpdate();
+      // }
+
+      const delta = newSize - oldSize;
+
+      instance.setState(
+        prevState => {
+          let deltaValue;
+          if (mountingCorrections === 0) {
+            deltaValue = delta;
+          } else {
+            deltaValue = prevState.scrollDelta + delta;
+          }
+          mountingCorrections++;
+          const newOffset = prevState.scrollOffset + delta;
+          return {
+            scrollOffset: newOffset,
+            scrollDelta: deltaValue,
+          };
+        },
+        () => {
+          // $FlowFixMe Property scrollBy is missing in HTMLDivElement
+          correctedInstances++;
+          if (mountingCorrections === correctedInstances) {
+            correctScroll();
+          }
+        }
+      );
     };
     instance._handleNewMeasurements = handleNewMeasurements;
+
+    // set scrollTop, reset scrolling condition
+    const correctScroll = () => {
+      const { scrollOffset } = instance.state;
+      const element = ((instance._outerRef: any): HTMLDivElement);
+      if (element) {
+        element.scrollTop = scrollOffset;
+        correctedInstances = 0;
+        mountingCorrections = 0;
+      }
+    };
 
     // Override the item-rendering process to wrap items with ItemMeasurer.
     // This keep the external API simpler.
@@ -467,7 +499,8 @@ const DynamicSizeList = createListComponent({
 
       const items = [];
       if (itemCount > 0) {
-        for (let index = startIndex; index <= stopIndex; index++) {
+        // for (let index = startIndex; index <= stopIndex; index++) {
+        for (let index = itemCount - 1; index >= 0; index--) {
           const { size } = getItemMetadata(
             instance.props,
             index,
@@ -477,26 +510,27 @@ const DynamicSizeList = createListComponent({
           // It's important to read style after fetching item metadata.
           // getItemMetadata() will clear stale styles.
           const style = instance._getItemStyle(index);
-
-          const item = createElement(children, {
-            data: itemData,
-            index,
-            isScrolling: useIsScrolling ? isScrolling : undefined,
-            style,
-          });
-
-          // Always wrap children in a ItemMeasurer to detect changes in size.
-          items.push(
-            createElement(ItemMeasurer, {
-              direction,
-              layout,
-              handleNewMeasurements,
+          if (index >= startIndex && index < stopIndex + 1) {
+            const item = createElement(children, {
+              data: itemData,
               index,
-              item,
-              key: itemKey(index, itemData),
-              size,
-            })
-          );
+              isScrolling: useIsScrolling ? isScrolling : undefined,
+              style,
+            });
+
+            // Always wrap children in a ItemMeasurer to detect changes in size.
+            items.push(
+              createElement(ItemMeasurer, {
+                direction,
+                layout,
+                handleNewMeasurements,
+                index,
+                item,
+                key: itemKey(index, itemData),
+                size,
+              })
+            );
+          }
         }
       }
       return items;
