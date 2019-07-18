@@ -115,7 +115,6 @@ const findNearestItemBinarySearch = (
     `high ${high} low ${low} offset ${scrollOffset} itemCount ${itemCount}`
   );
 
-  high = itemCount;
   while (low <= high) {
     const middle = low + Math.floor((high - low) / 2);
     const currentOffset = getItemMetadata(props, middle, instanceProps).offset;
