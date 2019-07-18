@@ -63,6 +63,8 @@ export type Props<T> = {|
   style?: Object,
   useIsScrolling: boolean,
   width: number | string,
+  listKey?: string,
+  useKeepStorage: boolean,
 |};
 
 type State = {|
@@ -153,6 +155,7 @@ export default function createListComponent({
       overscanCountForward: 2,
       overscanCountBackward: 2,
       useIsScrolling: false,
+      useKeepStorage: false,
     };
 
     state: State = {

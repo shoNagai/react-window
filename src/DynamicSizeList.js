@@ -429,6 +429,8 @@ const DynamicSizeList = createListComponent({
 
       itemSizeMap[index] = newSize;
 
+      console.log(`set itemSizeMap to index ${index} newSize ${newSize}`);
+
       // Even though the size has changed, we don't need to reset the cached style,
       // Because dynamic list items don't have constrained sizes.
       // This enables them to resize when their content (or container size) changes.
