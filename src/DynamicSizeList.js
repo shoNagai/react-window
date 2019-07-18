@@ -47,6 +47,7 @@ const getItemMetadata = (
     lastMeasuredIndex,
     lastPositionedIndex,
   } = instanceProps;
+  const { useKeepStorage, listKey } = instance.props;
 
   // If the specified item has not yet been measured,
   // Just return an estimated size for now.
@@ -74,14 +75,12 @@ const getItemMetadata = (
 
       itemOffsetMap[i] = prevOffset + prevSize;
 
-      // TODO: if useKeepStorage is true
-      // save storage -> localStorage.setItem(listKey, JSON.stringify(itemOffsetMap));
-      // use listKey on instance.props
-      console.log(
-        `set itemOffsetMap to index ${i} newSize ${prevOffset + prevSize}`,
-        JSON.stringify(itemOffsetMap)
-      );
-
+      if (useKeepStorage) {
+        localStorage.setItem(
+          `itemOffsetMap/${listKey}`,
+          JSON.stringify(itemOffsetMap)
+        );
+      }
       // Reset cached style to clear stale position.
       delete instance._itemStyleCache[i];
     }
@@ -450,16 +449,12 @@ const DynamicSizeList = createListComponent({
 
       itemSizeMap[index] = newSize;
 
-      // TODO: if useKeepStorage is true
-      // save storage -> localStorage.setItem(listKey, JSON.stringify(itemSizeMap));
-      // use listKey on instance.props
-      console.log(
-        `set itemSizeMap to index ${index} newSize ${newSize}`,
-        JSON.stringify(itemSizeMap),
-        useKeepStorage,
-        listKey
-      );
-
+      if (useKeepStorage) {
+        localStorage.setItem(
+          `itemSizeMap/${listKey}`,
+          JSON.stringify(itemSizeMap)
+        );
+      }
       // Even though the size has changed, we don't need to reset the cached style,
       // Because dynamic list items don't have constrained sizes.
       // This enables them to resize when their content (or container size) changes.
