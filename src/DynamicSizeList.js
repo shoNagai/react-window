@@ -302,6 +302,9 @@ const DynamicSizeList = createListComponent({
       totalMeasuredSize: 0,
     };
 
+    console.log('instanceProps.itemOffsetMap', instanceProps.itemOffsetMap);
+    console.log('instanceProps.itemSizeMap', instanceProps.itemSizeMap);
+
     let debounceForceUpdateID = null;
     const debounceForceUpdate = () => {
       if (debounceForceUpdateID === null) {
