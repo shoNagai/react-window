@@ -245,9 +245,9 @@ const DynamicSizeList = createListComponent({
       `■■■ scrollOffset ${scrollOffset}, totalMeasuredSize ${totalMeasuredSize}　itemCount ${itemCount}`,
       itemOffsetMap
     );
-    if (scrollOffset > totalMeasuredSize) {
-      return itemCount - 1;
-    }
+    // if (scrollOffset > totalMeasuredSize) {
+    //   return itemCount - 1;
+    // }
 
     // If we've already positioned and measured past this point,
     // Use a binary search to find the closets cell.
