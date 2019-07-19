@@ -477,8 +477,6 @@ export default function createListComponent({
       } = this.props;
       const { isScrolling, scrollDirection, scrollOffset } = this.state;
 
-      console.log('_getRangeToRender', scrollOffset);
-
       if (itemCount === 0) {
         return [0, 0, 0, 0];
       }

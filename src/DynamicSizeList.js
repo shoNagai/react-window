@@ -59,19 +59,11 @@ const getItemMetadata = (
   }
 
   // Lazily update positions if they are stale.
-  console.log(
-    'getItemMetadata',
-    index,
-    itemOffsetMap[index],
-    itemSizeMap[index],
-    index > lastPositionedIndex
-  );
   if (
     !itemOffsetMap[index] ||
     !itemSizeMap[index] ||
     index > lastPositionedIndex
   ) {
-    console.log('update offset');
     if (lastPositionedIndex < 0) {
       itemOffsetMap[0] = 0;
     }
@@ -245,9 +237,9 @@ const DynamicSizeList = createListComponent({
     const { direction, layout, height, itemCount, width } = props;
     const { lastMeasuredIndex, totalMeasuredSize } = instanceProps;
 
-    // console.log(
-    //   `■■■ itemCount ${itemCount} lastMeasuredIndex ${lastMeasuredIndex}, totalMeasuredSize ${totalMeasuredSize}`
-    // );
+    console.log(
+      `■■■ scrollOffset ${scrollOffset}, totalMeasuredSize ${totalMeasuredSize}`
+    );
 
     // If we've already positioned and measured past this point,
     // Use a binary search to find the closets cell.
@@ -531,8 +523,6 @@ const DynamicSizeList = createListComponent({
         useIsScrolling,
       } = instance.props;
       const { isScrolling, scrollOffset } = instance.state;
-
-      console.log('instance._renderItems', scrollOffset);
 
       const [startIndex, stopIndex] = instance._getRangeToRender();
 
