@@ -58,13 +58,12 @@ const getItemMetadata = (
     };
   }
 
-  console.log(itemOffsetMap, itemSizeMap);
   // Lazily update positions if they are stale.
   console.log(
     'getItemMetadata',
     index,
-    !itemOffsetMap[index],
-    !itemSizeMap[index],
+    itemOffsetMap[index],
+    itemSizeMap[index],
     index > lastPositionedIndex
   );
   if (
