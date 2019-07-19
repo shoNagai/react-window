@@ -235,8 +235,16 @@ const DynamicSizeList = createListComponent({
     instanceProps: InstanceProps
   ): number => {
     const { direction, layout, height, itemCount, width } = props;
-    const { lastMeasuredIndex, totalMeasuredSize } = instanceProps;
+    const {
+      lastMeasuredIndex,
+      totalMeasuredSize,
+      itemOffsetMap,
+    } = instanceProps;
 
+    console.log(
+      `■■■ scrollOffset ${scrollOffset}, totalMeasuredSize ${totalMeasuredSize}　itemCount ${itemCount}`,
+      itemOffsetMap
+    );
     if (scrollOffset > totalMeasuredSize) {
       return itemCount - 1;
     }
