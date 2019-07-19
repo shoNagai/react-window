@@ -520,6 +520,7 @@ const DynamicSizeList = createListComponent({
     // Override the item-rendering process to wrap items with ItemMeasurer.
     // This keep the external API simpler.
     instance._renderItems = () => {
+      const { scrollOffset } = instance.state;
       const {
         children,
         direction,
@@ -544,7 +545,8 @@ const DynamicSizeList = createListComponent({
         itemSizeMap,
         itemOffsetMap,
         totalMeasuredSize,
-        lastMeasuredIndex
+        lastMeasuredIndex,
+        scrollOffset
       );
 
       // _renderItems _getRangeToRender 17 128
