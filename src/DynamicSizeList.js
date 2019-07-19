@@ -238,7 +238,7 @@ const DynamicSizeList = createListComponent({
     const { lastMeasuredIndex, totalMeasuredSize } = instanceProps;
 
     console.log(
-      `■■■ scrollOffset ${scrollOffset}, totalMeasuredSize ${totalMeasuredSize}`
+      `■■■ scrollOffset ${scrollOffset}, totalMeasuredSize ${totalMeasuredSize}　itemCount ${itemCount}`
     );
 
     // If we've already positioned and measured past this point,
