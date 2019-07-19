@@ -58,6 +58,7 @@ const getItemMetadata = (
     };
   }
 
+  console.log(itemOffsetMap, itemSizeMap);
   // Lazily update positions if they are stale.
   console.log(
     'getItemMetadata',
@@ -521,7 +522,6 @@ const DynamicSizeList = createListComponent({
     // Override the item-rendering process to wrap items with ItemMeasurer.
     // This keep the external API simpler.
     instance._renderItems = () => {
-      const { scrollOffset } = instance.state;
       const {
         children,
         direction,
@@ -531,26 +531,13 @@ const DynamicSizeList = createListComponent({
         itemKey = defaultItemKey,
         useIsScrolling,
       } = instance.props;
-      const {
-        itemSizeMap,
-        itemOffsetMap,
-        totalMeasuredSize,
-        lastMeasuredIndex,
-      } = instanceProps;
-      const { isScrolling } = instance.state;
+      const { isScrolling, scrollOffset } = instance.state;
+
+      console.log('instance._renderItems', scrollOffset);
 
       const [startIndex, stopIndex] = instance._getRangeToRender();
 
       console.log('_renderItems _getRangeToRender', startIndex, stopIndex);
-      console.log(
-        itemSizeMap,
-        itemOffsetMap,
-        totalMeasuredSize,
-        lastMeasuredIndex,
-        scrollOffset
-      );
-
-      // _renderItems _getRangeToRender 17 128
 
       const items = [];
       if (itemCount > 0) {
